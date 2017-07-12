@@ -15,7 +15,9 @@ Download and copy the scripts to the bin/ folder.
 ## Running the pipeline
 
 ### Analysis info file
-A central part of the pipeline is the **analysis info** file. It has information about the project location, the original run folder, the reference fasta, gtf and bed files, and the parameters used throughout the analysis.
+A central part of the pipeline is the **analysis info** file. It has information about the project location, the original run folder, the reference fasta, gtf and bed files, and the parameters used throughout the analysis.   
+
+The analysis info file is a simple .txt file, with each line providing information. Parameters are separated by the semicolon (i.e ";") character.   
 
 The following is an example of the analysis info file:   
 
