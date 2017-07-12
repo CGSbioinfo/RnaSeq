@@ -52,3 +52,7 @@ The following is the explanation of the analysis info file:
 | **ncores =** *&lt;Number of cores to use to pararellize analysis&gt;*                                                                          |
 
 #### How to create one?
+
+Use the bin/analysis\_info.txt
+
+    python bin/analysis_info.txt
