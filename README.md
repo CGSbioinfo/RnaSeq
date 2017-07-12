@@ -6,6 +6,7 @@ RnaSeq pipeline
     -   [Analysis info file](#analysis-info-file)
         -   [What is it?](#what-is-it)
         -   [How to create one?](#how-to-create-one)
+-   [Use the bin/analysis\_info.txt.](#use-the-binanalysis_info.txt.)
 
 Getting Started
 ---------------
@@ -55,8 +56,11 @@ The following is the explanation of the analysis info file:
 
 #### How to create one?
 
-Use the bin/analysis\_info.txt
+Use the bin/analysis\_info.txt.
+-------------------------------
 
 ``` bash
 python bin/analysis_info.txt
 ```
+
+------------------------------------------------------------------------
