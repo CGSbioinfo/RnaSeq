@@ -17,4 +17,8 @@ Running the pipeline
 
 ### Analysis info file
 
-A central part of the pipeline is the analysis info file. It has information about the project location, the original run folder, the reference fasta, gtf and bed files, and the parameters used throughout the analysis.
+A central part of the pipeline is the **analysis info** file. It has information about the project location, the original run folder, the reference fasta, gtf and bed files, and the parameters used throughout the analysis.
+
+The following is an example of the analysis info file: &gt;working\_directory = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/ &gt;run\_folder = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx &gt;run\_samplesheet = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx &gt;bcl2fastq\_output = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/fastq/ &gt;readType = pairedEnd &gt;reference\_genome = &gt;trimgalore\_params = --gzip; --paired; --fastqc; --fastqc\_args '--nogroup --extract' &gt;ncores = 8
+
+The following is the explanation of the analysis info file: &gt;working\_directory = *&lt;path to directory of the analysis&gt;* &gt;run\_folder = *&lt;path to the run folder&gt;* &gt;run\_samplesheet = *&lt;sample sheet to be used to generate fastq files. This is created using the Illumina Expert Manager&gt;* &gt;bcl2fastq\_output = *&lt;path to the desired output of bcl2fastq. The defaults is fastq/ and the folder will be created automatically&gt;* &gt;readType = *&lt;either pairedEnd or singleEnd&gt;* &gt;reference\_genome = *&lt;path to the STAR reference genome folder that will be used at the mapping step&gt;* &gt;trimgalore\_params = *&lt;parameters to be passed to trim galore&gt;* &gt;ncores = *&lt;Number of cores to use to pararellize analysis&gt;*
