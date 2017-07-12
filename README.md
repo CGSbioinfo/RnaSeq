@@ -19,6 +19,8 @@ Running the pipeline
 
 A central part of the pipeline is the **analysis info** file. It has information about the project location, the original run folder, the reference fasta, gtf and bed files, and the parameters used throughout the analysis.
 
+#### What is it?
+
 The analysis info file is a simple .txt file, with each line providing information. Parameters are separated by the semicolon (i.e ";") character.
 
 The following is an example of the analysis info file:
@@ -46,3 +48,5 @@ The following is the explanation of the analysis info file:
 | **reference\_genome =** *&lt;path to the STAR reference genome folder that will be used at the mapping step&gt;*                               |
 | **trimgalore\_params =** *&lt;parameters to be passed to trim galore&gt;*                                                                      |
 | **ncores =** *&lt;Number of cores to use to pararellize analysis&gt;*                                                                          |
+
+#### How to create one?
