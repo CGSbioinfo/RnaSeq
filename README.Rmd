@@ -53,8 +53,6 @@ The following is the explanation of the analysis info file:
 
 Use the bin/analysis_info.txt.   
 --------------------------------------------------------------------------------------------------
-```{r, engine = 'bash', eval = FALSE}
 python bin/analysis_info.txt
-```
 --------------------------------------------------------------------------------------------------
 
