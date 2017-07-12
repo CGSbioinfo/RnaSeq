@@ -21,14 +21,14 @@ A central part of the pipeline is the **analysis info** file. It has information
 
 The following is an example of the analysis info file:
 
-> **working\_directory =** /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/
-> run\_folder = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx
-> run\_samplesheet = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx
-> bcl2fastq\_output = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/fastq/
-> readType = pairedEnd
-> reference\_genome =
-> trimgalore\_params = --gzip; --paired; --fastqc; --fastqc\_args '--nogroup --extract'
-> ncores = 8
+    working_directory = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq_pipeline/example_small_files/    
+    run_folder = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq_pipeline/example_small_files/xxx   
+    run_samplesheet = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq_pipeline/example_small_files/xxx    
+    bcl2fastq_output = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq_pipeline/example_small_files/fastq/   
+    readType = pairedEnd    
+    reference_genome =    
+    trimgalore_params = --gzip; --paired; --fastqc; --fastqc_args '--nogroup --extract'   
+    ncores = 8   
 
 The following is the explanation of the analysis info file:
 
