@@ -21,14 +21,16 @@ A central part of the pipeline is the **analysis info** file. It has information
 
 The following is an example of the analysis info file:
 
-> working\_directory = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/
-> run\_folder = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx
-> run\_samplesheet = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx
-> bcl2fastq\_output = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/fastq/
-> readType = pairedEnd
-> reference\_genome =
-> trimgalore\_params = --gzip; --paired; --fastqc; --fastqc\_args '--nogroup --extract'
-> ncores = 8
+|                                                                                                         |
+|:--------------------------------------------------------------------------------------------------------|
+| &gt;working\_directory = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/      |
+| &gt;run\_folder = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx          |
+| &gt;run\_samplesheet = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/xxx     |
+| &gt;bcl2fastq\_output = /mnt/cgs-fs3/Sequencing/Pipelines/RNASeq\_pipeline/example\_small\_files/fastq/ |
+| &gt;readType = pairedEnd                                                                                |
+| &gt;reference\_genome =                                                                                 |
+| &gt;trimgalore\_params = --gzip; --paired; --fastqc; --fastqc\_args '--nogroup --extract'               |
+| &gt;ncores = 8                                                                                          |
 
 The following is the explanation of the analysis info file:
 
