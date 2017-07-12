@@ -55,4 +55,6 @@ The following is the explanation of the analysis info file:
 
 Use the bin/analysis\_info.txt
 
-    python bin/analysis_info.txt
+``` bash
+python bin/analysis_info.txt
+```
