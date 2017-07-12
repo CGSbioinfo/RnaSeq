@@ -4,6 +4,8 @@ RnaSeq pipeline
 -   [Getting Started](#getting-started)
 -   [Running the pipeline](#running-the-pipeline)
     -   [Analysis info file](#analysis-info-file)
+        -   [What is it?](#what-is-it)
+        -   [How to create one?](#how-to-create-one)
 
 Getting Started
 ---------------
