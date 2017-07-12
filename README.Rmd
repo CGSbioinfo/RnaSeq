@@ -1,18 +1,11 @@
 ---
-title: "Habits"
+title: "RnaSeq pipeline"
 output:
   github_document:
     html_preview: true
     toc: true
     toc_depth: 2
 ---
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## RnaSeq pipeline
 
 ## Getting Started
 Create a new folder in fs3 or any other location with the project name - called the "project folder" in this README.   

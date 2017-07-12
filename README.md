@@ -1,11 +1,7 @@
-Habits
+RnaSeq pipeline
 ================
 
--   [RnaSeq pipeline](#rnaseq-pipeline)
 -   [Getting Started](#getting-started)
-
-RnaSeq pipeline
----------------
 
 Getting Started
 ---------------
