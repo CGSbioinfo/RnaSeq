@@ -33,12 +33,14 @@ The following is an example of the analysis info file:
 | **ncores =** 8                                                                                          |
 
 The following is the explanation of the analysis info file:
-<sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub>~</sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub><sub>~</sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub></sub>~~ -------------------------------------------------------------------------------------------------- working\_directory = *&lt;path to directory of the analysis&gt;*
-run\_folder = *&lt;path to the run folder&gt;*
-run\_samplesheet = *&lt;sample sheet to be used to generate fastq files. This is created using the Illumina Expert Manager&gt;*
-bcl2fastq\_output = *&lt;path to the desired output of bcl2fastq. The defaults is fastq/ and the folder will be created automatically&gt;*
-readType = *&lt;either pairedEnd or singleEnd&gt;*
-reference\_genome = *&lt;path to the STAR reference genome folder that will be used at the mapping step&gt;*
-trimgalore\_params = *&lt;parameters to be passed to trim galore&gt;*
-ncores = *&lt;Number of cores to use to pararellize analysis&gt;*
---------------------------------------------------------------------------------------------------
+
+|                                                                                                                                                |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------|
+| **working\_directory =** *&lt;path to directory of the analysis&gt;*                                                                           |
+| **run\_folder =** *&lt;path to the run folder&gt;*                                                                                             |
+| **run\_samplesheet =** *&lt;sample sheet to be used to generate fastq files. This is created using the Illumina Expert Manager&gt;*            |
+| **bcl2fastq\_output =** *&lt;path to the desired output of bcl2fastq. The defaults is fastq/ and the folder will be created automatically&gt;* |
+| **readType =** *&lt;either pairedEnd or singleEnd&gt;*                                                                                         |
+| **reference\_genome =** *&lt;path to the STAR reference genome folder that will be used at the mapping step&gt;*                               |
+| **trimgalore\_params =** *&lt;parameters to be passed to trim galore&gt;*                                                                      |
+| **ncores =** *&lt;Number of cores to use to pararellize analysis&gt;*                                                                          |
