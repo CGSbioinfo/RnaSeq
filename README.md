@@ -51,6 +51,8 @@ The following is the explanation of the analysis info file:
 | **trimgalore\_params =** *&lt;parameters to be passed to trim galore&gt;*                                                                      |
 | **ncores =** *&lt;Number of cores to use to pararellize analysis&gt;*                                                                          |
 
+<br><br>
+
 #### How to create one?
 
 Use the bin/analysis\_info.txt
