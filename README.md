@@ -3,9 +3,10 @@ RnaSeq pipeline
 
 -   [Getting Started](#getting-started)
 -   [Running the pipeline](#running-the-pipeline)
-    -   [Analysis info file](#analysis-info-file)
+    -   [1. Analysis info file](#analysis-info-file)
         -   [What is it?](#what-is-it)
         -   [How to create one?](#how-to-create-one)
+    -   [2. Running bcl2 fastq](#running-bcl2-fastq)
 
 Getting Started
 ---------------
@@ -17,7 +18,7 @@ Getting Started
 Running the pipeline
 --------------------
 
-### Analysis info file
+### 1. Analysis info file
 
 A central part of the pipeline is the **analysis info** file. It has information about the project location, the original run folder, the reference fasta, gtf and bed files, and the parameters used throughout the analysis.
 
@@ -57,6 +58,12 @@ The following is the explanation of the analysis info file:
 
 Use the bin/analysis\_info.txt.
 
-|                               |
-|:------------------------------|
-| python bin/analysis\_info.txt |
+``` bash
+python bin/analysis_info.py
+```
+
+This will create a file analysis\_info.txt, which you can open in a text editor and fill.
+
+<br>
+
+### 2. Running bcl2 fastq
