@@ -47,7 +47,7 @@ The following is the explanation of the analysis info file:
 **ncores =** *\<Number of cores to use to pararellize analysis\>*    
 --------------------------------------------------------------------------------------------------    
    
-<br><br>   
+<br>   
 
 #### How to create one?
 
