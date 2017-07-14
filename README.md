@@ -75,14 +75,16 @@ This will create a file analysis\_info.txt, which you can open in a text editor 
 ### 2. Obtain FASTQ files
 
 #### Using bcl2fastq
+Script: bin/run_bcl2fastq.py   
 
-Create fastq files (If you have more than one run, you can run this command for each run by changing the run\_folder and run\_samplesheet fields in the analysis\_info.txt file)
+Input: the analysis_info.txt file, which has information about the run folder, the run samplesheet, and the bcl2fastq_output folder.
+Create fastq files (If you have more than one run, you can run this command for each run by changing the run\_folder and run\_samplesheet fields in the analysis\_info.txt file).   
 
-``` bash
-$ python bin/run_bcl2fastq.py --analysis_info_file analysis_info.py
-```
+``` bash   
+$ python bin/run_bcl2fastq.py --analysis_info_file analysis_info.py   
+```   
 
-There is also a log file created called "bcl\_log.txt" to check that the conversion didn't have any problems.
+Output: fastq/ folder, which has a project subfolder with the fastq.gz files, among other files and subfolders.  
 
 #### Downloading data from basespace (Currently used for Lexogen projects)
 
@@ -107,52 +109,24 @@ $ ls -d * | parallel -j 4 --no-notice "cd {} ; gzip -d *"
 ``` bash        
 $ for i in $(ls -d *); do sample_name=$(ls ${i} | sed 's/.*\///g' | sed 's/_L00[[:digit:]]\+.*//g'  | sort | uniq); echo ${i} ${sample_name}; done         
 ```           
-
     -   If it looks correct, use mv to change the folder names:    
 ``` bash            
 $ for i in $(ls -d *); do sample_name=$(ls ${i} | sed 's/.*\///g' | sed 's/_L00[[:digit:]]\+.*//g'  | sort | uniq); mv ${i} ${sample_name}; done     
 ```       
 
--   For each sample, concatenate the four files into one:
-
-    -   The following command tests whether the outcome of the command is right. It prints the sample name, it's four fasta files, and the name of the output concatenated file.
-
-``` bash
-$ ls -d * | parallel -j 4 --no-notice "echo {}; ls {}/{}*L001_R1*  {}/{}*L002_R1* {}/{}*L003_R1*  {}/{}*L004_R1*; echo {}/{}_R1_001.fastq"
-```
-
-    + If that looks correct, concatenate the files for R1 reads:   
-
-``` bash
-$ ls -d * | parallel -j 4 --no-notice "cat {}/{}*L001_R1*  {}/{}*L002_R1* {}/{}*L003_R1*  {}/{}*L004_R1* > {}/{}_R1_001.fastq"
-```
-
-    + And for R2 reads for paired end reads:    
-
-``` bash
-$ ls -d * | parallel -j 4 --no-notice "cat {}/{}*L001_R2*  {}/{}*L002_R2* {}/{}*L003_R2*  {}/{}*L004_R2* > {}/{}_R2_001.fastq"
-```
-
-1.  Download fastq files from Basespace. Basespace splits the data in 4 files. An example of the file names is:
-    -   sample1\_S1\_L001\_R1\_001.fastq
-    -   sample1\_S1\_L002\_R1\_001.fastq
-    -   sample1\_S1\_L003\_R1\_001.fastq
-    -   sample1\_S1\_L004\_R1\_001.fastq
-        If the run is paired end, there will also be files for R2:
-    -   sample1\_S1\_L001\_R2\_001.fastq
-    -   sample1\_S1\_L002\_R2\_001.fastq
-    -   sample1\_S1\_L003\_R2\_001.fastq
-    -   sample1\_S1\_L004\_R2\_001.fastq
-
-2.  3.  Concatenate the 4 files into one, so that at the end there is one file per sample (or two if its paired end). **The name of the concatenated file is important**. The only difference to the original file names, is that concatenated files do not contain the string *L00\[1,2,3,4\]*.
-    -   sample1\_S1\_R1\_001.fastq
-    -   sample1\_S1\_R2\_001.fastq
-
-4.  It is possible that the **folder names** of the samples will not be in the right format. The scripts expect that each sample has a separate folder and that the folder names consist of the sample name and the \_S\[\\d\] string. From the example above, the folder name would be:
-    -   sample1\_S1
-        So the relative path be:
-    -   sample1\_S1/sample1\_S1\_R1\_001.fastq
-    -   sample1\_S1/sample1\_S1\_R2\_001.fastq
+-   For each sample, concatenate the four files into one:    
+    -   The following command tests whether the outcome of the command is right. It prints the sample name, it's four fasta files, and the name of the output concatenated file.    
+``` bash    
+$ ls -d * | parallel -j 4 --no-notice "echo {}; ls {}/{}*L001_R1*  {}/{}*L002_R1* {}/{}*L003_R1*  {}/{}*L004_R1*; echo {}/{}_R1_001.fastq"     
+```    
+    -   If that looks correct, concatenate the files for R1 reads:   
+``` bash    
+$ ls -d * | parallel -j 4 --no-notice "cat {}/{}*L001_R1*  {}/{}*L002_R1* {}/{}*L003_R1*  {}/{}*L004_R1* > {}/{}_R1_001.fastq"     
+```    
+    -   And for R2 reads for paired end reads:    
+``` bash    
+$ ls -d * | parallel -j 4 --no-notice "cat {}/{}*L001_R2*  {}/{}*L002_R2* {}/{}*L003_R2*  {}/{}*L004_R2* > {}/{}_R2_001.fastq"    
+```    
 
 <br>
 
