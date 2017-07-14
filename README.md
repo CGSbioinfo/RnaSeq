@@ -9,7 +9,7 @@ RnaSeq pipeline
     -   [2. Obtain FASTQ files](#obtain-fastq-files)
         -   [Using bcl2fastq](#using-bcl2fastq)
         -   [Downloading data from basespace (Currently used for Lexogen projects)](#downloading-data-from-basespace-currently-used-for-lexogen-projects)
-    -   [3. Move the reads to a new folder named rawReads](#move-the-reads-to-a-new-folder-named-rawReads)
+    -   [3. Move the reads to a new folder named rawReads](#move-the-reads-to-a-new-folder-named-rawreads)
     -   [4. Create sample names file](#create-sample-names-file)
     -   [5. Quality control of raw data](#quality-control-of-raw-data)
     -   [6. Table and plot of number of reads per sample](#table-and-plot-of-number-of-reads-per-sample)
