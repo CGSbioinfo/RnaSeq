@@ -107,12 +107,13 @@ $ ls -d * | parallel -j 4 --no-notice "cd {} ; gzip -d *"
 ``` bash        
 $ for i in $(ls -d *); do sample_name=$(ls ${i} | sed 's/.*\///g' | sed 's/_L00[[:digit:]]\+.*//g'  | sort | uniq); echo ${i} ${sample_name}; done         
 ```           
+
     -   If it looks correct, use mv to change the folder names:    
 ``` bash            
 $ for i in $(ls -d *); do sample_name=$(ls ${i} | sed 's/.*\///g' | sed 's/_L00[[:digit:]]\+.*//g'  | sort | uniq); mv ${i} ${sample_name}; done     
 ```       
 
-1.  For each sample, concatenate the four files into one:
+-   For each sample, concatenate the four files into one:
 
     -   The following command tests whether the outcome of the command is right. It prints the sample name, it's four fasta files, and the name of the output concatenated file.
 
