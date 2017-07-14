@@ -239,6 +239,7 @@ $ python bin/fastqc_tables_and_plots.py --in_dir rawReads/ --out_dir_report Repo
 ### 8. Trim low quality bases and adapters
 
 **main script:** bin/trimmingReads.py
+
 **sub script:** bin/trimming\_summary.R
 
 \*\*analysis info <file:**> Define the trimgalore parameters that you want to pass to trim galore and the number of cores.
