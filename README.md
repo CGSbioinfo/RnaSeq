@@ -77,8 +77,7 @@ This will create a file analysis\_info.txt, which you can open in a text editor 
 #### Using bcl2fastq
 **Script:** bin/run_bcl2fastq.py   
 
-**Input:** the analysis_info.txt file, which has information about the run folder, the run samplesheet, and the bcl2fastq_output folder.
-Create fastq files (If you have more than one run, you can run this command for each run by changing the run\_folder and run\_samplesheet fields in the analysis\_info.txt file).   
+**Input:** the analysis_info.txt file, which has information about the run folder, the run samplesheet, and the bcl2fastq_output folder. If you have more than one run, you can run this command for each run by changing the run\_folder and run\_samplesheet fields in the analysis\_info.txt file).   
 
 **Command:**   
 ``` bash   
@@ -130,24 +129,21 @@ $ ls -d * | parallel -j 4 --no-notice "cat {}/{}*L001_R2*  {}/{}*L002_R2* {}/{}*
 ```    
 
 <br>
+    
+### 3. Move the reads to a new folder named rawReads    
+<br>   
 
-### 3. Create a sample names file
+### 4. Create sample names file   
+``` bash
+$ ls rawReads | sed 's/_R1_001.fastq//g' | sed 's/_R2_001.fastq//g' | sort | uniq > sample_names.txt   
+```
 
-This should be a text file, with one sample name per line. The sample names consist of the sample name and the \_S\[\\d\] string. From the example above, the sample name would be:
-- sample1\_S1
-
-<br>
-
-### 4. Organize working directory
-
-### 5. Quality control of Fastq files
-
+### 5. Quality control of raw data   
 To run fastqc in all the samples, use the script bin/qcReads.py.
 
-Script: bin/qcReads.py
+**Script:** bin/qcReads.py
 
-Arguments:
-
+**Arguments:**   
 |                                                                                                                 |
 |:----------------------------------------------------------------------------------------------------------------|
 | -h, --help show this help message and exit                                                                      |
@@ -155,30 +151,35 @@ Arguments:
 | --analysis\_info\_file ANALYSIS\_INFO\_FILE. Text file with details of the analysis. Default=analysis\_info.txt |
 | --in\_dir IN\_DIR. Path to folder containing fastq files. Default=rawReads/                                     |
 | --out\_dir OUT\_DIR. Path to out put folder. Default=rawReads/                                                  |
-| --out\_dir\_report OUT\_DIR\_REPORT. Path to out put folder. Default=Report/figure/data/                        |
 | --sample\_names\_file SAMPLE\_NAMES\_FILE. Text file with sample names to run. Default=sample\_names.txt        |
 
-Output:
-Fastqc files will be created for each sample in the rawReads/ folder
+**Output:**
+Fastqc files and folders will be created for each sample in the rawReads/ folder
 
-Command example:
+**Command example:**
 
 ``` bash
-$ python bin/qcReads.py --analysis_info_file analysis_info.txt --in_dir rawReads/ --out_dir rawReads/ --out_dir_report Report/figure/data/ --sample_names_file sample_names.txt
+$ python bin/qcReads.py --analysis_info_file analysis_info.txt --in_dir rawReads/ --out_dir rawReads/ --sample_names_file sample_names.txt
 ```
 
 ### 6. Table and plot of number of reads per sample
 
-Script: bin/indexQC.R
+**Script:** bin/indexQC.R
 
-Requires: ggplot2 and reshape R libraries
+**Requires:** ggplot2 and reshape R libraries
 
-Input: The input directory should have the *fastqc\_data.txt* files of all samples of the project. The 7th line in the fastqc\_data.txt files have the total number of sequences. This is the information that the script collects.
+**Input:* The input directory should have the *fastqc\_data.txt* files of all samples of the project. The 7th line in the fastqc\_data.txt files have the total number of sequences. This is the information that the script collects.
 
-Command example:
+**Command:**   
+
+``` bash
+/usr/bin/Rscript bin/indexQX.R <input dir> <output dir>
+```
+
+**Command example:**   
 
 ``` bash
 /usr/bin/Rscript bin/indexQX.R rawReads/ Report/figure/data/
 ```
 
-Output: The output directory will have a csv file with the Total number of Sequences and a bar plot with the proportion of reads represented by each sample from the total number of reads from the run.
+**Output:** The output directory will have a csv file with the Total number of Sequences and a bar plot with the proportion of reads represented by each sample from the total number of reads from the run.
