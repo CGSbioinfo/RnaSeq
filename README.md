@@ -241,9 +241,9 @@ $ python bin/fastqc_tables_and_plots.py --in_dir rawReads/ --out_dir_report Repo
 **main script:** bin/trimmingReads.py
 **sub script:** bin/trimming\_summary.R
 
-**analysis :** Define the trimgalore parameters that you want to pass to trim galore and the number of cores.
+\*\*analysis info <file:**> Define the trimgalore parameters that you want to pass to trim galore and the number of cores.
 
-**Lexogen projects analysis info: ** For lexogen projects, the argument *--clip\_R1 12* is added to remove the first 12 bases as recommended.
+**Lexogen projects analysis info: ** For lexogen projects, the argument *--clip\_R1 12* is added in the analysis\_info.txt file (trimgalore\_params line) to remove the first 12 bases as recommended.
 
 **Arguments:**
 
