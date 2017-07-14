@@ -75,16 +75,17 @@ This will create a file analysis\_info.txt, which you can open in a text editor 
 ### 2. Obtain FASTQ files
 
 #### Using bcl2fastq
-Script: bin/run_bcl2fastq.py   
+**Script:** bin/run_bcl2fastq.py   
 
-Input: the analysis_info.txt file, which has information about the run folder, the run samplesheet, and the bcl2fastq_output folder.
+**Input:** the analysis_info.txt file, which has information about the run folder, the run samplesheet, and the bcl2fastq_output folder.
 Create fastq files (If you have more than one run, you can run this command for each run by changing the run\_folder and run\_samplesheet fields in the analysis\_info.txt file).   
 
+**Command:**   
 ``` bash   
 $ python bin/run_bcl2fastq.py --analysis_info_file analysis_info.py   
 ```   
 
-Output: fastq/ folder, which has a project subfolder with the fastq.gz files, among other files and subfolders.  
+**Output:** fastq/ folder, which has a project subfolder with the fastq.gz files, among other files and subfolders.  
 
 #### Downloading data from basespace (Currently used for Lexogen projects)
 
