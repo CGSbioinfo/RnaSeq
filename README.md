@@ -26,8 +26,8 @@ RnaSeq pipeline
         -   [12c. Genomic context of mapped reads.](#c.-genomic-context-of-mapped-reads.)
     -   [13. Counting of reads](#counting-of-reads)
     -   [14. Counting QC](#counting-qc)
-        -   [14a.](#a.)
-        -   [14b.](#b.)
+        -   [14a. Counting QC part1](#a.-counting-qc-part1)
+        -   [14b. Counting QC part2](#b.-counting-qc-part2)
 
 Getting Started
 ---------------
@@ -60,6 +60,8 @@ The following is an example of the analysis info file:
 | **trimgalore\_params =** --gzip; --paired; --fastqc; --fastqc\_args '--nogroup --extract'               |
 | **mapping\_params =** --runThreadN 4; --outSAMtype BAM SortedByCoordinate; readFilesCommand zcat        |
 | **ncores =** 8                                                                                          |
+| **htseq\_params =** -a 10; -m union; -s reverse; -t exon                                                |
+| **strand = ** reverse                                                                                   |
 
 The following is the explanation of the analysis info file:
 
@@ -74,6 +76,8 @@ The following is the explanation of the analysis info file:
 | **trimgalore\_params =** *&lt;parameters to be passed to trim galore&gt;*                                                           |
 | **mapping\_params =** *&lt;parameters to be passed to star&gt;*                                                                     |
 | **ncores =** *&lt;Number of cores to use to pararellize analysis&gt;*                                                               |
+| **htseq\_params =** *&lt;parameters to be passed to htseq-count&gt;*                                                                |
+| **strand =** *&lt; expected mapping strand &gt;*                                                                                    |
 
 <br>
 
@@ -460,6 +464,61 @@ python bin/countingReads.py --in_dir alignedReads --out_dir countedReads
 
 ### 14. Counting QC
 
-#### 14a.
+#### 14a. Counting QC part1
 
-#### 14b.
+**Script:** bin/countingQC\_part1.R
+
+**R packages required:** RColorBrewer, matrixStats, gplots, ggplot2, reshape, GenomicRanges, rtracklayer, Rsamtools, grid.
+
+**Input:** folder with \_count.txt files
+
+**Other files (optional):** mapping\_summary.csv, output of mappinQC
+
+**Command: **
+
+``` bash
+/usr/bin/Rscript bin/countingQC_part1.R <indir> <outdir> <mapping summary csv>  
+```
+
+**Command example: **
+
+``` bash
+/usr/bin/Rscript bin/countingQC_part1.R countedReads/ Report/figure/countingQC Report/figure/mappingQC/mapping_summary.csv
+```
+
+**Output:** files and plots in outdir
+
+#### 14b. Counting QC part2
+
+**Script: ** bin/countingQC\_part2.R
+
+**R packages required: ** gplots, rtracklayer, reshape, ggplot2.
+
+**Input: ** folder with \_count.txt files
+
+**Other files: ** GTF file
+
+**Command: **
+
+``` bash
+/usr/bin/Rscript bin/countingQC_part2.R <indir> <outdir> <gtf file>
+```
+
+**Command example: **
+
+``` bash
+/usr/bin/Rscript bin/countingQC_part2.R countedReads/ Report/figure/countingQC/ /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus_musculus.GRCm38.84.gtf
+
+**Output:** files and plots in outdir   
+ 
+ 
+
+
+
+
+
+
+
+
+ 
+```
