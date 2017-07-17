@@ -17,6 +17,8 @@ RnaSeq pipeline
     -   [8. Trim low quality bases and adapters](#trim-low-quality-bases-and-adapters)
     -   [9. Trimming summary](#trimming-summary)
     -   [10. Trimming QC plots](#trimming-qc-plots)
+    -   [10 (Optional for Lexogen) Trim polyA sequences](#optional-for-lexogen-trim-polya-sequences)
+    -   [11 Mapping](#mapping)
 
 Getting Started
 ---------------
@@ -267,13 +269,35 @@ $ python bin/trimmingReads.py
 
 ### 9. Trimming summary
 
+The script bin/trimming\_summary creates a table with the number of raw sequences, the number of sequences after trimming, and the percentage of sequences removed after trimming.
+
+It expects an input directory of raw data with a fastqc output file for each sample (fastqc\_data.txt).
+
+It also expects an input directory or trimmed data with a fastqc output file for each sample (fastqc\_data.txt).
+
+**Arguments:**
+
+``` bash
+/usr/bin/Rscript bin/trimming_summary.R <raw_data_indir> <trimmed_data_indir> <outdir>   
+```
+
+**Command example:**
+
+``` bash
+/usr/bin/Rscript bin/trimming_summary.R rawReads/ trimmedReads/ Report/figure/data/
+```
+
+**Output:** A csv table in the output directory.
+
 <br>
 
 ### 10. Trimming QC plots
 
 **Make sure the arguments, specially *in\_dir* and *out\_dir* arguments, correspond to the trimmed reads corresponding folders**
 
-**main script:** bin/fastqc\_tables\_and\_plots.py **sub scripts:** bin/create\_fastqcPlots\_allSamples.R; bin/create\_fastqcPlots\_perSample.R; bin/create\_fastqcTables.py
+**main script:** bin/fastqc\_tables\_and\_plots.py
+
+**sub scripts:** bin/create\_fastqcPlots\_allSamples.R; bin/create\_fastqcPlots\_perSample.R; bin/create\_fastqcTables.py
 
 **Arguments main script:**
 
@@ -294,3 +318,40 @@ $ python bin/fastqc_tables_and_plots.py --in_dir trimmedReads --out_dir_report R
 ```
 
 <br>
+
+### 10 (Optional for Lexogen) Trim polyA sequences
+
+PolyA sequences may also affect the mapping of reads if the alignment tool used involves alignment of reads from end-to-end. The tool used for mapping in this analysis is STAR, as explained in the following section.
+
+STAR does local alignment and clipping of 3’-end of reads in case that such an alignment gives a better score. This means that the majority of polyA sequences are clipped from reads during the alignment step. For this reason it is not strictly necessary to trim polyA sequences from the reads.
+
+To remove polyA sequences I have used prinseq (argument -trim\_right 8, but may change).
+
+### 11 Mapping
+
+**main script:** mappingReads.py
+
+**software:** samtools, STAR
+
+**Define the reference genome in the analysis\_info.txt**
+
+\*\* Define the number of cores to be used in analysis\_info.txt, normally 2 works fine\*\*
+
+**Comments:** a temp dir can be a local directory. Transfer of data between servers (i.e fs3 and cluster) is often very slow.
+
+**Arguments main script:**
+
+|                                                                                                                |
+|:---------------------------------------------------------------------------------------------------------------|
+| -h, --help show this help message and exit                                                                     |
+| -v, --version show program's version number and exit                                                           |
+| --in\_dir IN\_DIR Path to folder containing fastq files. Default=trimmedReads/                                 |
+| --out\_dir OUT\_DIR Path to out put folder. Default=alignedReads/                                              |
+| --temp\_dir TEMP\_DIR Path to a temp dir folder. Default=none                                                  |
+| --sample\_names\_file SAMPLE\_NAMES\_FILE. Text file with sample names to map. Default=sample\_names\_info.txt |
+
+**Command example:**
+
+``` bash
+$ python bin/mappingReads.py --temp_dir ~/temp_mapping
+```
