@@ -24,6 +24,10 @@ RnaSeq pipeline
         -   [12a. Mapping summary](#a.-mapping-summary)
         -   [12b. Gene body coverage](#b.-gene-body-coverage)
         -   [12c. Genomic context of mapped reads.](#c.-genomic-context-of-mapped-reads.)
+    -   [13. Counting of reads](#counting-of-reads)
+    -   [14. Counting QC](#counting-qc)
+        -   [14a.](#a.)
+        -   [14b.](#b.)
 
 Getting Started
 ---------------
@@ -433,3 +437,29 @@ python bin/mappingQC.py --run picard_tools --in_dir alignedReads --out_dir align
 ```
 
 **Output:** csv and txt files in out\_dir. read\_distribution\_genomic\_context png file and strand\_mappingQC csv file in out\_dir\_report.
+
+<br>
+
+### 13. Counting of reads
+
+**main script:** bin/countingQC.py
+
+**software:** samtools and htseq-count
+
+\*\*gtf\_<file:**> gtf file specified in the analysis info file
+
+**Other options:** *htseq\_params*, specified in the analysis info file
+
+**Command example:**
+
+``` bash
+python bin/countingReads.py --in_dir alignedReads --out_dir countedReads 
+```
+
+**Output:** \*\_count.txt\* files for each samples with counts for each gene.
+
+### 14. Counting QC
+
+#### 14a.
+
+#### 14b.
