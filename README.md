@@ -23,6 +23,7 @@ RnaSeq pipeline
     -   [12. Mapping QC](#mapping-qc)
         -   [12a. Mapping summary](#a.-mapping-summary)
         -   [12b. Gene body coverage](#b.-gene-body-coverage)
+        -   [12c. Genomic context of mapped reads.](#c.-genomic-context-of-mapped-reads.)
 
 Getting Started
 ---------------
@@ -410,3 +411,25 @@ python bin/mappingQC.py --run gene_body_coverage --in_dir alignedReads --out_dir
 **Output:** pdf file with gene body coverage plot in the out\_dir\_report. *I re-do this plot using the 10KGenes.geneBodyCoverage.r, which is also an output from the script, and is stored in the out\_dir folder*
 
 <br>
+
+#### 12c. Genomic context of mapped reads.
+
+**main script:** bin/mappingQC.py
+
+**main tools:** /usr/local/picard/picard.jar CollectRnaSeqMetrics
+
+**other scripts:** bin/read\_distribution\_genomic\_context.R, bin/mapping\_distribution.R
+
+**Input:** folder of mapped reads with bam files.
+
+**Other files:** ref flat file and ribosomal rna interval list, both specified in the analysis info file.
+
+**Other options:** *strand*, specified in the analysis info file.
+
+**Command example:**
+
+``` bash
+python bin/mappingQC.py --run picard_tools --in_dir alignedReads --out_dir alignedReads/QC --out_dir_report Report/figure/mappingQC/
+```
+
+**Output:** csv and txt files in out\_dir. read\_distribution\_genomic\_context png file and strand\_mappingQC csv file in out\_dir\_report.
