@@ -30,7 +30,6 @@ RnaSeq pipeline
         -   [14b. Counting QC part2](#b.-counting-qc-part2)
     -   [15. EdgeR and DESeq2](#edger-and-deseq2)
         -   [15a. Create requiered files:](#a.-create-requiered-files)
--   [deseq2 arguments txt file explanation:](#deseq2-arguments-txt-file-explanation)
 
 Getting Started
 ---------------
@@ -537,6 +536,12 @@ python bin/deseq2_arguments.py
 - **edger\_arguments.** Fill this file manually. Explanation and example below.
 
 deseq2 arguments txt file explanation:
---------------------------------------
 
-indir = \*&lt;folder with \_count.txt files&gt;* outdir = *&lt;output dir for results&gt;* sample\_info = *&lt;csv file with columns SampleID and Group (and Sibship for paired analysis)&gt;* comparisons = *&lt;csv file with columns baselineGroup and comparisonGroup with a list of comparisons&gt;* design = *&lt;either pairedSamples OR non-pairedSamples&gt;* gtfFile = *&lt;gtf file with gene info. Can be copied from the analysis\_info file&gt;\* ---------------------------------------------------------------------------------------------------
+|                                                                                                            |
+|:-----------------------------------------------------------------------------------------------------------|
+| indir = \*&lt;folder with \_count.txt files&gt;\*                                                          |
+| outdir = *&lt;output dir for results&gt;*                                                                  |
+| sample\_info = *&lt;csv file with columns SampleID and Group (and Sibship for paired analysis)&gt;*        |
+| comparisons = *&lt;csv file with columns baselineGroup and comparisonGroup with a list of comparisons&gt;* |
+| design = *&lt;either pairedSamples OR non-pairedSamples&gt;*                                               |
+| gtfFile = *&lt;gtf file with gene info. Can be copied from the analysis\_info file&gt;*                    |
