@@ -535,7 +535,7 @@ python bin/deseq2_arguments.py
 - **deseq2\_arguments.txt.** Fill this file manually. Explanation and example below.
 - **edger\_arguments.** Fill this file manually. Explanation and example below.
 
-deseq2 arguments txt file explanation:
+**deseq2 arguments txt file explanation:**
 
 |                                                                                                            |
 |:-----------------------------------------------------------------------------------------------------------|
@@ -546,18 +546,18 @@ deseq2 arguments txt file explanation:
 | design = *&lt;either pairedSamples OR non-pairedSamples&gt;*                                               |
 | gtfFile = *&lt;gtf file with gene info. Can be copied from the analysis\_info file&gt;*                    |
 
-deseq2 arguments txt file example:
+**deseq2 arguments txt file example:**
 
-|                                                                                                                    |
-|:-------------------------------------------------------------------------------------------------------------------|
-| indir = *&lt;countedReads/&gt;*                                                                                    |
-| outdir = *&lt;deseq2/&gt;*                                                                                         |
-| sample\_info = *&lt;sample\_info.csv&gt;*                                                                          |
-| comparisons = *&lt;comparisons.csv&gt;*                                                                            |
-| design = *&lt;non-pairedSamples&gt;*                                                                               |
-| gtfFile = *&lt;/mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf&gt;* |
+|                                                                                                          |
+|:---------------------------------------------------------------------------------------------------------|
+| indir = countedReads/                                                                                    |
+| outdir = deseq2/                                                                                         |
+| sample\_info = sample\_info.csv                                                                          |
+| comparisons = comparisons.csv                                                                            |
+| design = non-pairedSamples                                                                               |
+| gtfFile = /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf |
 
-edger arguments txt file explanation:
+**edger arguments txt file explanation:**
 
 |                                                                                                                                |
 |:-------------------------------------------------------------------------------------------------------------------------------|
@@ -570,15 +570,15 @@ edger arguments txt file explanation:
 | design = *&lt;either pairedSamples OR non-pairedSamples&gt;*                                                                   |
 | gtfFile = *&lt;gtf file with gene info. Can be copied from the analysis\_info file&gt;*                                        |
 
-edger arguments txt file example:
+**edger arguments txt file example:**
 
-|                                                                                                                    |
-|:-------------------------------------------------------------------------------------------------------------------|
-| indir = *&lt;countedReads/&gt;*                                                                                    |
-| outdir = *&lt;edger/&gt;*                                                                                          |
-| sample\_info = *&lt;sample\_info.csv&gt;*                                                                          |
-| comparisons = *&lt;comparisons.csv&gt;*                                                                            |
-| min.cpm = *&lt;1&gt;*                                                                                              |
-| min.nsamples = *&lt;1&gt;*                                                                                         |
-| design = *&lt;non-pairedSamples&gt;*                                                                               |
-| gtfFile = *&lt;/mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf&gt;* |
+|                                                                                                          |
+|:---------------------------------------------------------------------------------------------------------|
+| indir = countedReads/                                                                                    |
+| outdir = &lt;edger/                                                                                      |
+| sample\_info = sample\_info.csv                                                                          |
+| comparisons = comparisons.csv                                                                            |
+| min.cpm = 1                                                                                              |
+| min.nsamples = 1                                                                                         |
+| design = non-pairedSamples                                                                               |
+| gtfFile = /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf |
