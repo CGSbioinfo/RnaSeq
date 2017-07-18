@@ -545,3 +545,40 @@ deseq2 arguments txt file explanation:
 | comparisons = *&lt;csv file with columns baselineGroup and comparisonGroup with a list of comparisons&gt;* |
 | design = *&lt;either pairedSamples OR non-pairedSamples&gt;*                                               |
 | gtfFile = *&lt;gtf file with gene info. Can be copied from the analysis\_info file&gt;*                    |
+
+deseq2 arguments txt file example:
+
+|                                                                                                                    |
+|:-------------------------------------------------------------------------------------------------------------------|
+| indir = *&lt;countedReads/&gt;*                                                                                    |
+| outdir = *&lt;deseq2/&gt;*                                                                                         |
+| sample\_info = *&lt;sample\_info.csv&gt;*                                                                          |
+| comparisons = *&lt;comparisons.csv&gt;*                                                                            |
+| design = *&lt;non-pairedSamples&gt;*                                                                               |
+| gtfFile = *&lt;/mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf&gt;* |
+
+edger arguments txt file explanation:
+
+|                                                                                                                                |
+|:-------------------------------------------------------------------------------------------------------------------------------|
+| indir = \*&lt;folder with \_count.txt files&gt;\*                                                                              |
+| outdir = *&lt;output dir for results&gt;*                                                                                      |
+| sample\_info = *&lt;csv file with columns SampleID and Group (and Sibship for paired analysis)&gt;*                            |
+| comparisons = *&lt;csv file with columns baselineGroup and comparisonGroup with a list of comparisons&gt;*                     |
+| min.cpm = *&lt;Filtering threshold: miminum count per million value a gene should have to be kept&gt;*                         |
+| min.nsamples = *&lt;Filtering threshold: miminum number of samples with cpm specified above a gene should have to be kept&gt;* |
+| design = *&lt;either pairedSamples OR non-pairedSamples&gt;*                                                                   |
+| gtfFile = *&lt;gtf file with gene info. Can be copied from the analysis\_info file&gt;*                                        |
+
+edger arguments txt file example:
+
+|                                                                                                                    |
+|:-------------------------------------------------------------------------------------------------------------------|
+| indir = *&lt;countedReads/&gt;*                                                                                    |
+| outdir = *&lt;edger/&gt;*                                                                                          |
+| sample\_info = *&lt;sample\_info.csv&gt;*                                                                          |
+| comparisons = *&lt;comparisons.csv&gt;*                                                                            |
+| min.cpm = *&lt;1&gt;*                                                                                              |
+| min.nsamples = *&lt;1&gt;*                                                                                         |
+| design = *&lt;non-pairedSamples&gt;*                                                                               |
+| gtfFile = *&lt;/mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf&gt;* |
