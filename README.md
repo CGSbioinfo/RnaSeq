@@ -28,6 +28,8 @@ RnaSeq pipeline
     -   [14. Counting QC](#counting-qc)
         -   [14a. Counting QC part1](#a.-counting-qc-part1)
         -   [14b. Counting QC part2](#b.-counting-qc-part2)
+    -   [15. EdgeR and DESeq2](#edger-and-deseq2)
+        -   [15a. Create requiered files:](#a.-create-requiered-files)
 
 Getting Started
 ---------------
@@ -508,17 +510,27 @@ python bin/countingReads.py --in_dir alignedReads --out_dir countedReads
 
 ``` bash
 /usr/bin/Rscript bin/countingQC_part2.R countedReads/ Report/figure/countingQC/ /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus_musculus.GRCm38.84.gtf
-
-**Output:** files and plots in outdir   
- 
- 
-
-
-
-
-
-
-
-
- 
 ```
+
+**Output:** files and plots in outdir
+
+### 15. EdgeR and DESeq2
+
+At the moment, edgeR is used to do the differential expression analysis. DESeq2 is only used to do PCA plots with **rlog** transformed data.
+
+#### 15a. Create requiered files:
+
+**Scripts: ** bin/deseq2\_arguments.py, bin/edger\_arguments.py
+
+**Commands: **
+
+``` bash
+python bin/edger_arguments.py   
+python bin/deseq2_arguments.py
+```
+
+**Output: **
+- sample\_info.csv. This file will have columns **SampleID** and **Group**. You can add a **Sibship** columns to do paired analysis. Fill this file manually.
+- comparisons.csv. This file will have columns **baselineGroup** and **comparisonGroup**. The baselineGroup is normally the wt or control group. List pairwise comparisons you want to make, using the corresponding group names.
+- deseq2\_arguments.txt. Fill this file manually. Explanation and example below.
+- edger\_arguments. Fill this file manually. Explanation and example below.
