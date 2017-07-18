@@ -30,6 +30,7 @@ RnaSeq pipeline
         -   [14b. Counting QC part2](#b.-counting-qc-part2)
     -   [15. EdgeR and DESeq2](#edger-and-deseq2)
         -   [15a. Create requiered files:](#a.-create-requiered-files)
+-   [deseq2 arguments txt file explanation:](#deseq2-arguments-txt-file-explanation)
 
 Getting Started
 ---------------
@@ -530,7 +531,12 @@ python bin/deseq2_arguments.py
 ```
 
 **Output: **
-- **sample\_info.csv.** This file will have columns **SampleID** and **Group**. You can add a **Sibship** columns to do paired analysis. Fill this file manually.
-- **comparisons.csv.** This file will have columns **baselineGroup** and **comparisonGroup**. The baselineGroup is normally the wt or control group. List pairwise comparisons you want to make, using the corresponding group names.
+- **sample\_info.csv.** This file will have columns **SampleID** and **Group**. You can add a **Sibship** column for paired analysis. Fill this file manually.
+- **comparisons.csv.** This file will have columns **baselineGroup** and **comparisonGroup**. The baselineGroup is normally the WT or control group. List the pairwise comparisons you want to make, using the corresponding group names.
 - **deseq2\_arguments.txt.** Fill this file manually. Explanation and example below.
 - **edger\_arguments.** Fill this file manually. Explanation and example below.
+
+deseq2 arguments txt file explanation:
+--------------------------------------
+
+indir = \*&lt;folder with \_count.txt files&gt;* outdir = *&lt;output dir for results&gt;* sample\_info = *&lt;csv file with columns SampleID and Group (and Sibship for paired analysis)&gt;* comparisons = *&lt;csv file with columns baselineGroup and comparisonGroup with a list of comparisons&gt;* design = *&lt;either pairedSamples OR non-pairedSamples&gt;* gtfFile = *&lt;gtf file with gene info. Can be copied from the analysis\_info file&gt;\* ---------------------------------------------------------------------------------------------------
