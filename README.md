@@ -530,7 +530,7 @@ python bin/deseq2_arguments.py
 ```
 
 **Output: **
-- sample\_info.csv. This file will have columns **SampleID** and **Group**. You can add a **Sibship** columns to do paired analysis. Fill this file manually.
-- comparisons.csv. This file will have columns **baselineGroup** and **comparisonGroup**. The baselineGroup is normally the wt or control group. List pairwise comparisons you want to make, using the corresponding group names.
-- deseq2\_arguments.txt. Fill this file manually. Explanation and example below.
-- edger\_arguments. Fill this file manually. Explanation and example below.
+- **sample\_info.csv.** This file will have columns **SampleID** and **Group**. You can add a **Sibship** columns to do paired analysis. Fill this file manually.
+- **comparisons.csv.** This file will have columns **baselineGroup** and **comparisonGroup**. The baselineGroup is normally the wt or control group. List pairwise comparisons you want to make, using the corresponding group names.
+- **deseq2\_arguments.txt.** Fill this file manually. Explanation and example below.
+- **edger\_arguments.** Fill this file manually. Explanation and example below.
