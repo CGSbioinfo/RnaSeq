@@ -478,15 +478,15 @@ python bin/countingReads.py --in_dir alignedReads --out_dir countedReads
 
 **Input:** folder with \_count.txt files
 
-**Other files (optional):** mapping\_summary.csv, output of mappinQC
+**Other files:** mapping\_summary.csv, output of mappinQC
 
-**Command: **
+**Command:**
 
 ``` bash
 /usr/bin/Rscript bin/countingQC_part1.R <indir> <outdir> <mapping summary csv>  
 ```
 
-**Command example: **
+**Command example:**
 
 ``` bash
 /usr/bin/Rscript bin/countingQC_part1.R countedReads/ Report/figure/countingQC Report/figure/mappingQC/mapping_summary.csv
