@@ -30,8 +30,8 @@ RnaSeq pipeline
         -   [14b. Counting QC part2](#b.-counting-qc-part2)
     -   [15. EdgeR and DESeq2](#edger-and-deseq2)
         -   [15a. Create requiered files:](#a.-create-requiered-files)
-        -   [15b. DESeq2 PCA plot:](#b.-deseq2-pca-plot)
-        -   [15c. Differential gene expression:](#c.-differential-gene-expression)
+        -   [15b. DESeq2 PCA plot](#b.-deseq2-pca-plot)
+        -   [15c. Differential gene expression.](#c.-differential-gene-expression.)
 
 Getting Started
 ---------------
@@ -585,7 +585,7 @@ python bin/deseq2_arguments.py
 | design = non-pairedSamples                                                                               |
 | gtfFile = /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf |
 
-#### 15b. DESeq2 PCA plot:
+#### 15b. DESeq2 PCA plot
 
 **main script: ** bin/deseq2.R
 
@@ -604,4 +604,10 @@ The input directory, output directory, and other arguments need to be specified 
 
 Output: PCA and heatmap plots in the outdir specified.
 
-#### 15c. Differential gene expression:
+#### 15c. Differential gene expression.
+
+**Command: **
+
+``` bash
+/usr/bin/Rscript bin/edger.R edger_arguments.txt
+```
