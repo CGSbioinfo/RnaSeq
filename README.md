@@ -496,21 +496,21 @@ python bin/countingReads.py --in_dir alignedReads --out_dir countedReads
 
 #### 14b. Counting QC part2
 
-**Script: ** bin/countingQC\_part2.R
+**Script:** bin/countingQC\_part2.R
 
-**R packages required: ** gplots, rtracklayer, reshape, ggplot2.
+**R packages required:** gplots, rtracklayer, reshape, ggplot2.
 
-**Input: ** folder with \_count.txt files
+**Input:** folder with \_count.txt files
 
-**Other files: ** GTF file
+**Other files:** GTF file
 
-**Command: **
+**Command:**
 
 ``` bash
 /usr/bin/Rscript bin/countingQC_part2.R <indir> <outdir> <gtf file>
 ```
 
-**Command example: **
+**Command example:**
 
 ``` bash
 /usr/bin/Rscript bin/countingQC_part2.R countedReads/ Report/figure/countingQC/ /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus_musculus.GRCm38.84.gtf
@@ -526,14 +526,14 @@ At the moment, edgeR is used to do the differential expression analysis. DESeq2 
 
 **Scripts: ** bin/deseq2\_arguments.py, bin/edger\_arguments.py
 
-**Commands: **
+**Commands:**
 
 ``` bash
 python bin/edger_arguments.py   
 python bin/deseq2_arguments.py
 ```
 
-**Output: **
+**Output:**
 - **sample\_info.csv.** This file will have columns **SampleID** and **Group**. You can add a **Sibship** column for paired analysis. Fill this file manually.
 - **comparisons.csv.** This file will have columns **baselineGroup** and **comparisonGroup**. The baselineGroup is normally the WT or control group. List the pairwise comparisons you want to make, using the corresponding group names.
 - **deseq2\_arguments.txt.** Fill this file manually. Explanation and example below.
@@ -589,16 +589,16 @@ python bin/deseq2_arguments.py
 
 #### 15b. DESeq2 PCA plot
 
-**main script: ** bin/deseq2.R
+**main script:** bin/deseq2.R
 
-**other scripts: ** bin/deseq2\_functions.R
+**other scripts:** bin/deseq2\_functions.R
 
-**R packages: ** DESeq2, gplots, rtracklayer, ggplot2, gridExtra, matrixStats, dplyr.
+**R packages:** DESeq2, gplots, rtracklayer, ggplot2, gridExtra, matrixStats, dplyr.
 
 The following script uses DESeq2 package to transform raw counts to rlog values.
 
 The input directory, output directory, and other arguments need to be specified in the deseq2\_arguments.txt.
-**Command: **
+**Command:**
 
 ``` bash
 /usr/bin/Rscript bin/deseq2.R deseq2_arguments.txt   
@@ -608,16 +608,16 @@ Output: PCA and heatmap plots in the outdir specified.
 
 #### 15c. Differential gene expression.
 
-**main script: ** bin/edger.R
+**main script:** bin/edger.R
 
-**Other scripts: ** bin/edger\_functions.R
+**Other scripts:** bin/edger\_functions.R
 
-**R packages: ** edgeR, gplots, rtracklayer.
+**R packages:** edgeR, gplots, rtracklayer.
 
-**Command: **
+**Command:**
 
 ``` bash
 /usr/bin/Rscript bin/edger.R edger_arguments.txt
 ```
 
-**Output: ** results in the output dir.
+**Output:** results in the output dir.
