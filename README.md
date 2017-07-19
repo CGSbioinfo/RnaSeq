@@ -30,6 +30,8 @@ RnaSeq pipeline
         -   [14b. Counting QC part2](#b.-counting-qc-part2)
     -   [15. EdgeR and DESeq2](#edger-and-deseq2)
         -   [15a. Create requiered files:](#a.-create-requiered-files)
+        -   [15b. DESeq2 PCA plot:](#b.-deseq2-pca-plot)
+        -   [15c. Differential gene expression:](#c.-differential-gene-expression)
 
 Getting Started
 ---------------
@@ -582,3 +584,24 @@ python bin/deseq2_arguments.py
 | min.nsamples = 1                                                                                         |
 | design = non-pairedSamples                                                                               |
 | gtfFile = /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf |
+
+#### 15b. DESeq2 PCA plot:
+
+**main script: ** bin/deseq2.R
+
+**other scripts: ** bin/deseq2\_functions.R
+
+**R packages: ** DESeq2, gplots, rtracklayer, ggplot2, gridExtra, matrixStats, dplyr.
+
+The following script uses DESeq2 package to transform raw counts to rlog values.
+
+The input directory, output directory, and other arguments need to be specified in the deseq2\_arguments.txt.
+**Command: **
+
+``` bash
+/usr/bin/Rscript bin/deseq2.R deseq2_arguments.txt   
+```
+
+Output: PCA and heatmap plots in the outdir specified.
+
+#### 15c. Differential gene expression:
