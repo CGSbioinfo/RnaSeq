@@ -606,8 +606,16 @@ Output: PCA and heatmap plots in the outdir specified.
 
 #### 15c. Differential gene expression.
 
+**main script: ** bin/edger.R
+
+**Other scripts: ** bin/edger\_functions.R
+
+**R packages: ** edgeR, gplots, rtracklayer.
+
 **Command: **
 
 ``` bash
 /usr/bin/Rscript bin/edger.R edger_arguments.txt
 ```
+
+**Output: ** results in the output dir.
