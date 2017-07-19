@@ -524,7 +524,7 @@ At the moment, edgeR is used to do the differential expression analysis. DESeq2 
 
 #### 15a. Create requiered files:
 
-**Scripts: ** bin/deseq2\_arguments.py, bin/edger\_arguments.py
+**Scripts:** bin/deseq2\_arguments.py, bin/edger\_arguments.py
 
 **Commands:**
 
