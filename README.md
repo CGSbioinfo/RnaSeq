@@ -268,9 +268,9 @@ $ python bin/fastqc_tables_and_plots.py --in_dir rawReads/ --out_dir_report Repo
 
 **sub script:** bin/trimming\_summary.R
 
-\*\*analysis info <file:**> Define the trimgalore parameters that you want to pass to trim galore and the number of cores.
+**analysis infofile:** Define the trimgalore parameters that you want to pass to trim galore and the number of cores.
 
-**Lexogen projects analysis info: ** For lexogen projects, the argument *--clip\_R1 12* is added in the analysis\_info.txt file (trimgalore\_params line) to remove the first 12 bases as recommended.
+**Lexogen projects analysis infofile: ** For lexogen projects, the argument *--clip\_R1 12* needs to be added in the analysis\_info.txt file (trimgalore\_params line) to remove the first 12 bases as recommended.
 
 **Arguments:**
 
@@ -295,9 +295,9 @@ $ python bin/trimmingReads.py
 
 The script bin/trimming\_summary creates a table with the number of raw sequences, the number of sequences after trimming, and the percentage of sequences removed after trimming.
 
-It expects an input directory of raw data with a fastqc output file for each sample (fastqc\_data.txt).
+It expects an input directory of **raw data** with a fastqc files for each sample (fastqc\_data.txt; these should be in subdirectories).
 
-It also expects an input directory or trimmed data with a fastqc output file for each sample (fastqc\_data.txt).
+It also expects an input directory of **trimmed data** with a fastqc files for each sample (fastqc\_data.txt; these should be in subdirectories).
 
 **Arguments:**
 
@@ -317,11 +317,11 @@ It also expects an input directory or trimmed data with a fastqc output file for
 
 ### 10. Trimming QC plots
 
-**Make sure the arguments, specially *in\_dir* and *out\_dir* arguments, correspond to the trimmed reads corresponding folders**
+**Make sure the arguments, specially *in\_dir* and *out\_dir* arguments, correspond to trimmed reads folders**
 
 **main script:** bin/fastqc\_tables\_and\_plots.py
 
-**sub scripts:** bin/create\_fastqcPlots\_allSamples.R; bin/create\_fastqcPlots\_perSample.R; bin/create\_fastqcTables.py
+**other scripts:** bin/create\_fastqcPlots\_allSamples.R; bin/create\_fastqcPlots\_perSample.R; bin/create\_fastqcTables.py
 
 **Arguments main script:**
 
@@ -355,13 +355,15 @@ To remove polyA sequences I have used prinseq (argument -trim\_right 8, but may 
 
 ### 11. Mapping
 
-**main script:** mappingReads.py
+**main script:** bin/mappingReads.py
 
-**software:** samtools, STAR
+**software:**
+1. samtools <http://www.htslib.org/doc/samtools.html>
+2. STAR <https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf>
 
-**Define the reference genome in the analysis\_info.txt**
-
-\*\* Define the number of cores to be used in analysis\_info.txt, normally 2 works fine\*\*
+**analysis infofile:** The following fields need to be defined in the analysis info file:
+1. Number of cores to be used. Normally 2 works fine.
+2. Reference genome folder, which corresponds to the STAR genomeGenerate folder output.
 
 **Comments:** a temp dir can be a local directory. Transfer of data between servers (i.e fs3 and cluster) is often very slow.
 
@@ -412,7 +414,7 @@ python bin/mappingQC.py --run mapping_summary --in_dir alignedReads --out_dir_re
 
 **Input:** folder of mapped reads with bam files.
 
-\*\*Bed <file:**> bedFile\_10k specified in the analyis info file.
+**Bedfile:** bedFile\_10k specified in the analyis info file.
 
 **Command example:**
 
@@ -420,7 +422,7 @@ python bin/mappingQC.py --run mapping_summary --in_dir alignedReads --out_dir_re
 python bin/mappingQC.py --run gene_body_coverage --in_dir alignedReads --out_dir alignedReads/QC --out_dir_report Report/figure/mappingQC/
 ```
 
-**Output:** pdf file with gene body coverage plot in the out\_dir\_report. *I re-do this plot using the 10KGenes.geneBodyCoverage.r, which is also an output from the script, and is stored in the out\_dir folder*
+**Output:** pdf file with gene body coverage plot in the out\_dir\_report. *I sometimes re-do this plot using the 10KGenes.geneBodyCoverage.r, which is also an output from the script, and is stored in the out\_dir folder*
 
 <br>
 
@@ -454,7 +456,7 @@ python bin/mappingQC.py --run picard_tools --in_dir alignedReads --out_dir align
 
 **software:** samtools and htseq-count
 
-\*\*gtf\_<file:**> gtf file specified in the analysis info file
+**gtfFile:** gtf file specified in the analysis info file
 
 **Other options:** *htseq\_params*, specified in the analysis info file
 
