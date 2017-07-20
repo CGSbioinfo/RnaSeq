@@ -3,35 +3,36 @@ RnaSeq pipeline
 
 -   [Getting Started](#getting-started)
 -   [Running the pipeline](#running-the-pipeline)
-    -   [1. Analysis info file](#analysis-info-file)
+    -   [Step 1: Analysis info file](#step-1-analysis-info-file)
         -   [Format of the analysis info file](#format-of-the-analysis-info-file)
+        -   [Strand](#strand)
         -   [Reference genome](#reference-genome)
         -   [How to create the analysis info file](#how-to-create-the-analysis-info-file)
-    -   [2. Obtain FASTQ files](#obtain-fastq-files)
+    -   [Step 2: Obtain FASTQ files](#step-2-obtain-fastq-files)
         -   [Using bcl2fastq](#using-bcl2fastq)
         -   [Downloading data from basespace (Currently used for Lexogen projects)](#downloading-data-from-basespace-currently-used-for-lexogen-projects)
-    -   [3. Move the reads to a new folder named rawReads](#move-the-reads-to-a-new-folder-named-rawreads)
-    -   [4. Create sample names file](#create-sample-names-file)
-    -   [5. Quality control of Fastq files](#quality-control-of-fastq-files)
-    -   [6. Table and plot of number of reads per sample](#table-and-plot-of-number-of-reads-per-sample)
-    -   [7. FastQC plots](#fastqc-plots)
-    -   [8. Trim low quality bases and adapters](#trim-low-quality-bases-and-adapters)
-    -   [9. Trimming summary](#trimming-summary)
-    -   [10. Trimming QC plots](#trimming-qc-plots)
-    -   [10. (Optional for Lexogen) Trim polyA sequences](#optional-for-lexogen-trim-polya-sequences)
-    -   [11. Mapping](#mapping)
-    -   [12. Mapping QC](#mapping-qc)
-        -   [12a. Mapping summary](#a.-mapping-summary)
-        -   [12b. Gene body coverage](#b.-gene-body-coverage)
-        -   [12c. Genomic context of mapped reads.](#c.-genomic-context-of-mapped-reads.)
-    -   [13. Counting of reads](#counting-of-reads)
-    -   [14. Counting QC](#counting-qc)
-        -   [14a. Counting QC part1](#a.-counting-qc-part1)
-        -   [14b. Counting QC part2](#b.-counting-qc-part2)
-    -   [15. EdgeR and DESeq2](#edger-and-deseq2)
-        -   [15a. Create requiered files:](#a.-create-requiered-files)
-        -   [15b. DESeq2 PCA plot](#b.-deseq2-pca-plot)
-        -   [15c. Differential gene expression.](#c.-differential-gene-expression.)
+        -   [Move the reads to a new folder named rawReads](#move-the-reads-to-a-new-folder-named-rawreads)
+        -   [Create sample names file](#create-sample-names-file)
+    -   [Step 3: Quality control of Fastq files](#step-3-quality-control-of-fastq-files)
+    -   [Step 4: Table and plot of number of reads per sample](#step-4-table-and-plot-of-number-of-reads-per-sample)
+    -   [Step 5: FastQC plots](#step-5-fastqc-plots)
+    -   [Step 6: Trim low quality bases and adapters](#step-6-trim-low-quality-bases-and-adapters)
+        -   [Step 6 (Optional for Lexogen): Trim polyA sequences](#step-6-optional-for-lexogen-trim-polya-sequences)
+    -   [Step 7: Trimming summary](#step-7-trimming-summary)
+    -   [Step 8: Trimming QC plots](#step-8-trimming-qc-plots)
+    -   [Step 9: Mapping](#step-9-mapping)
+    -   [Step 10: Mapping QC](#step-10-mapping-qc)
+        -   [10a: Mapping summary](#a-mapping-summary)
+        -   [10b: Gene body coverage](#b-gene-body-coverage)
+        -   [10c: Genomic context of mapped reads.](#c-genomic-context-of-mapped-reads.)
+    -   [Step 11: Counting of reads](#step-11-counting-of-reads)
+    -   [Step 12: Counting QC](#step-12-counting-qc)
+        -   [12a: Counting QC part1](#a-counting-qc-part1)
+        -   [12b: Counting QC part2](#b-counting-qc-part2)
+    -   [Step 13: EdgeR and DESeq2](#step-13-edger-and-deseq2)
+        -   [13a: Create requiered files:](#a-create-requiered-files)
+        -   [13b: DESeq2 PCA plot](#b-deseq2-pca-plot)
+        -   [13c: Differential gene expression.](#c-differential-gene-expression.)
 
 Getting Started
 ---------------
@@ -43,7 +44,7 @@ Getting Started
 Running the pipeline
 --------------------
 
-### 1. Analysis info file
+### Step 1: Analysis info file
 
 A central part of the pipeline is the **analysis info** file. It has information about the project location, the original run folder, the reference fasta, gtf and bed files, and the parameters used throughout the analysis.
 
@@ -65,7 +66,7 @@ The following is an example of the analysis info file:
 | **mapping\_params =** --runThreadN 4; --outSAMtype BAM SortedByCoordinate; readFilesCommand zcat        |
 | **ncores =** 8                                                                                          |
 | **htseq\_params =** -a 10; -m union; -s reverse; -t exon                                                |
-| **strand = ** reverse                                                                                   |
+| **strand =** reverse                                                                                    |
 
 The following is the explanation of the analysis info file:
 
@@ -81,7 +82,27 @@ The following is the explanation of the analysis info file:
 | **mapping\_params =** *&lt;parameters to be passed to star&gt;*                                                                     |
 | **ncores =** *&lt;Number of cores to use to pararellize analysis&gt;*                                                               |
 | **htseq\_params =** *&lt;parameters to be passed to htseq-count&gt;*                                                                |
-| **strand =** *&lt; expected mapping strand &gt;*                                                                                    |
+| **strand =** *&lt; expected mapping strand. &gt;*                                                                                   |
+
+<br>
+
+#### Strand
+
+This depends on the format of the data: whether is strand specific or not, and on which strand are reads expected to map.
+
+Strand is specified for the mapping QC section where picard tools is used. Picard options are: NONE, FIRST\_READ\_TRANSCRIPTION\_STRAND, and SECOND\_READ\_TRANSCIRPTION\_STRAND. Here is a link to more explanation, look in the CollectRnaSeqMetrics section: <http://broadinstitute.github.io/picard/command-line-overview.html>. The following is some brief explanation:
+
+|                                                                                                                                                                                                                                                                      |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| For strand-specific library prep. For unpaired reads, use FIRST\_READ\_TRANSCRIPTION\_STRAND if the reads are expected to be on the transcription strand. Required. Possible values: {NONE, FIRST\_READ\_TRANSCRIPTION\_STRAND, SECOND\_READ\_TRANSCRIPTION\_STRAND} |
+
+-   **When we do paired end analysis** we normally use SECOND\_READ\_TRANSCRIPTION\_STRAND.
+-   **When we do single end analysis** we normally use FIRST\_READ\_TRANSCRIPTION\_STRAND.
+
+The value chosen should also match the strand specified in the htseq\_params field. The specific argument fot htseq is *-s*, which could be: *yes*, *no* or *reverse*. <http://htseq.readthedocs.io/en/release_0.9.0/count.html>
+
+-   **When we do paired end analysis** we normally use reverse.
+-   **When we do single end analysis** we normally use yes.
 
 <br>
 
@@ -101,7 +122,7 @@ This will create a file analysis\_info.txt, which you can open in a text editor 
 
 <br>
 
-### 2. Obtain FASTQ files
+### Step 2: Obtain FASTQ files
 
 #### Using bcl2fastq
 
@@ -169,13 +190,13 @@ $ ls -d * | parallel -j 4 --no-notice "cat {}/{}*L001_R2*  {}/{}*L002_R2* {}/{}*
 
 <br>
 
-### 3. Move the reads to a new folder named rawReads
+#### Move the reads to a new folder named rawReads
 
 Use mv command in bash.
 
 <br>
 
-### 4. Create sample names file
+#### Create sample names file
 
 **Bash command:**
 
@@ -185,7 +206,7 @@ $ ls rawReads | sed 's/_R1_001.fastq//g' | sed 's/_R2_001.fastq//g' | sort | uni
 
 <br>
 
-### 5. Quality control of Fastq files
+### Step 3: Quality control of Fastq files
 
 To run fastqc in all the samples, use the script bin/qcReads.py.
 
@@ -212,7 +233,7 @@ $ python bin/qcReads.py --analysis_info_file analysis_info.txt --in_dir rawReads
 
 <br>
 
-### 6. Table and plot of number of reads per sample
+### Step 4: Table and plot of number of reads per sample
 
 **Script:** bin/indexQC.R
 
@@ -236,7 +257,7 @@ $ /usr/bin/Rscript bin/indexQX.R rawReads/ Report/figure/data/
 
 <br>
 
-### 7. FastQC plots
+### Step 5: FastQC plots
 
 **main script:** bin/fastqc\_tables\_and\_plots.py
 
@@ -262,7 +283,7 @@ $ python bin/fastqc_tables_and_plots.py --in_dir rawReads/ --out_dir_report Repo
 
 <br>
 
-### 8. Trim low quality bases and adapters
+### Step 6: Trim low quality bases and adapters
 
 **main script:** bin/trimmingReads.py
 
@@ -291,7 +312,17 @@ $ python bin/trimmingReads.py
 
 <br>
 
-### 9. Trimming summary
+#### Step 6 (Optional for Lexogen): Trim polyA sequences
+
+PolyA sequences may also affect the mapping of reads if the alignment tool used involves alignment of reads from end-to-end. The tool used for mapping in this analysis is STAR, as explained in the following section.
+
+STAR does local alignment and clipping of 3’-end of reads in case that such an alignment gives a better score. This means that the majority of polyA sequences are clipped from reads during the alignment step. For this reason it is not strictly necessary to trim polyA sequences from the reads.
+
+To remove polyA sequences I have used prinseq (argument -trim\_right 8, but may change).
+
+<br>
+
+### Step 7: Trimming summary
 
 The script bin/trimming\_summary creates a table with the number of raw sequences, the number of sequences after trimming, and the percentage of sequences removed after trimming.
 
@@ -315,7 +346,7 @@ It also expects an input directory of **trimmed data** with a fastqc files for e
 
 <br>
 
-### 10. Trimming QC plots
+### Step 8: Trimming QC plots
 
 **Make sure the arguments, specially *in\_dir* and *out\_dir* arguments, correspond to trimmed reads folders**
 
@@ -343,17 +374,7 @@ $ python bin/fastqc_tables_and_plots.py --in_dir trimmedReads --out_dir_report R
 
 <br>
 
-### 10. (Optional for Lexogen) Trim polyA sequences
-
-PolyA sequences may also affect the mapping of reads if the alignment tool used involves alignment of reads from end-to-end. The tool used for mapping in this analysis is STAR, as explained in the following section.
-
-STAR does local alignment and clipping of 3’-end of reads in case that such an alignment gives a better score. This means that the majority of polyA sequences are clipped from reads during the alignment step. For this reason it is not strictly necessary to trim polyA sequences from the reads.
-
-To remove polyA sequences I have used prinseq (argument -trim\_right 8, but may change).
-
-<br>
-
-### 11. Mapping
+### Step 9: Mapping
 
 **main script:** bin/mappingReads.py
 
@@ -386,9 +407,9 @@ $ python bin/mappingReads.py --temp_dir ~/temp_mapping
 
 <br>
 
-### 12. Mapping QC
+### Step 10: Mapping QC
 
-#### 12a. Mapping summary
+#### 10a: Mapping summary
 
 **main script:** bin/mappingQC.py
 
@@ -406,7 +427,7 @@ python bin/mappingQC.py --run mapping_summary --in_dir alignedReads --out_dir_re
 
 <br>
 
-#### 12b. Gene body coverage
+#### 10b: Gene body coverage
 
 **main script:** bin/mappingQC.py
 
@@ -426,7 +447,7 @@ python bin/mappingQC.py --run gene_body_coverage --in_dir alignedReads --out_dir
 
 <br>
 
-#### 12c. Genomic context of mapped reads.
+#### 10c: Genomic context of mapped reads.
 
 **main script:** bin/mappingQC.py
 
@@ -450,7 +471,7 @@ python bin/mappingQC.py --run picard_tools --in_dir alignedReads --out_dir align
 
 <br>
 
-### 13. Counting of reads
+### Step 11: Counting of reads
 
 **main script:** bin/countingQC.py
 
@@ -468,9 +489,9 @@ python bin/countingReads.py --in_dir alignedReads --out_dir countedReads
 
 **Output:** \*\_count.txt\* files for each samples with counts for each gene.
 
-### 14. Counting QC
+### Step 12: Counting QC
 
-#### 14a. Counting QC part1
+#### 12a: Counting QC part1
 
 **Script:** bin/countingQC\_part1.R
 
@@ -494,7 +515,7 @@ python bin/countingReads.py --in_dir alignedReads --out_dir countedReads
 
 **Output:** files and plots in outdir
 
-#### 14b. Counting QC part2
+#### 12b: Counting QC part2
 
 **Script:** bin/countingQC\_part2.R
 
@@ -518,11 +539,11 @@ python bin/countingReads.py --in_dir alignedReads --out_dir countedReads
 
 **Output:** files and plots in outdir
 
-### 15. EdgeR and DESeq2
+### Step 13: EdgeR and DESeq2
 
 At the moment, edgeR is used to do the differential expression analysis. DESeq2 is only used to do PCA plots with **rlog** transformed data.
 
-#### 15a. Create requiered files:
+#### 13a: Create requiered files:
 
 **Scripts:** bin/deseq2\_arguments.py, bin/edger\_arguments.py
 
@@ -587,7 +608,7 @@ python bin/deseq2_arguments.py
 | design = non-pairedSamples                                                                               |
 | gtfFile = /mnt/cgs-fs3/Sequencing/Genome/Mouse/gtf/ensembl/grcm38/release-84/Mus\_musculus.GRCm38.84.gtf |
 
-#### 15b. DESeq2 PCA plot
+#### 13b: DESeq2 PCA plot
 
 **main script:** bin/deseq2.R
 
@@ -606,7 +627,7 @@ The input directory, output directory, and other arguments need to be specified 
 
 Output: PCA and heatmap plots in the outdir specified.
 
-#### 15c. Differential gene expression.
+#### 13c: Differential gene expression.
 
 **main script:** bin/edger.R
 
