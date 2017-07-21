@@ -5,6 +5,8 @@ RnaSeq pipeline
 -   [Running the pipeline](#running-the-pipeline)
     -   [Step 1: Analysis info file](#step-1-analysis-info-file)
         -   [Format of the analysis info file](#format-of-the-analysis-info-file)
+        -   [Links to tools](#links-to-tools)
+        -   [Parameter choices for small RNA seq projects and for Lexogen projects](#parameter-choices-for-small-rna-seq-projects-and-for-lexogen-projects)
         -   [Strand](#strand)
         -   [Reference genome](#reference-genome)
         -   [How to create the analysis info file](#how-to-create-the-analysis-info-file)
@@ -52,6 +54,8 @@ A central part of the pipeline is the **analysis info** file. It has information
 
 The analysis info file is a simple .txt file, with each line providing information. Parameters are separated by the semicolon (i.e ";") character.
 
+The script that creates the analysis info file chooses some parameters by default. Below there is more information and links to the tools used if you want to change the parameters.
+
 The following is an example of the analysis info file:
 
 |                                                                                                         |
@@ -86,6 +90,24 @@ The following is the explanation of the analysis info file:
 
 <br>
 
+#### Links to tools
+
+-   Trim galore: <https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md>
+-   STAR: <https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf>
+-   HTSeq: <http://htseq.readthedocs.io/en/release_0.9.0/count.html>
+
+#### Parameter choices for small RNA seq projects and for Lexogen projects
+
+**For small RNA seq projects:**
+- consider changing the mapping parameters in analysis info to --runThreadN 4; --outSAMtype BAM SortedByCoordinate; --readFilesCommand zcat; --outFilterMultimapNmax 20; --outFilterMismatchNoverLmax 0.03; --outFilterScoreMinOverLread 0; --outFilterMatchNminOverLread 0; --outFilterMatchNmin 16; --alignSJDBoverhangMin 1000; --alignIntronMax 1.
+- consider using the gtf file from mirBase.
+- **If the library is single end and maps to the forward strand, and you are using the gtf file from mirbase,** change the counting parameters to -a 0; -m union; -s yes; -t miRNA; -i Name.
+
+**For lexogen projects:**
+- you need to add the argument *--clip\_R1 12* in the trimgalore parameters in the analysis info file to remove the first 12 bases as recommended.
+
+<br>
+
 #### Strand
 
 This depends on the format of the data: whether is strand specific or not, and on which strand are reads expected to map.
@@ -110,12 +132,16 @@ The value chosen should also match the strand specified in the htseq\_params fie
 
 The reference genome should be the output of STAR's *genomeGenerate* command. We currently download genomes from [ensembl](ftp://ftp.ensembl.org/pub/).
 
+<br>
+
 #### How to create the analysis info file
 
-Use the bin/analysis\_info.txt.
+**Script:** bin/analysis\_info.txt.
+
+**Command example:**
 
 ``` bash
-$ python bin/analysis_info.py
+$ python bin/analysis_info.py --outfile analysis_info.txt
 ```
 
 This will create a file analysis\_info.txt, which you can open in a text editor and fill.
@@ -223,7 +249,9 @@ To run fastqc in all the samples, use the script bin/qcReads.py.
 | --out\_dir OUT\_DIR. Path to out put folder. Default=rawReads/                                                  |
 | --sample\_names\_file SAMPLE\_NAMES\_FILE. Text file with sample names to run. Default=sample\_names.txt        |
 
-**Output:** Fastqc files and folders will be created for each sample in the rawReads/ folder
+**Output:**
+- Fastqc files and folders will be created for each sample in the rawReads/ folder.
+- Log file with version of the software used in rawReads/ folder.
 
 **Command example:**
 
@@ -285,13 +313,15 @@ $ python bin/fastqc_tables_and_plots.py --in_dir rawReads/ --out_dir_report Repo
 
 ### Step 6: Trim low quality bases and adapters
 
+**Check the trimgalore\_params in the analysis info file. Most are default, but paired end or single end will need to be changed depending on the project.** Manual: <https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md>.
+
 **main script:** bin/trimmingReads.py
 
-**sub script:** bin/trimming\_summary.R
+**other scripts:** bin/trimming\_summary.R
 
 **analysis infofile:** Define the trimgalore parameters that you want to pass to trim galore and the number of cores.
 
-**Lexogen projects analysis infofile: ** For lexogen projects, the argument *--clip\_R1 12* needs to be added in the analysis\_info.txt file (trimgalore\_params line) to remove the first 12 bases as recommended.
+**Lexogen projects analysis infofile:** For lexogen projects, the argument *--clip\_R1 12* needs to be added in the analysis\_info.txt file (trimgalore\_params line) to remove the first 12 bases as recommended.
 
 **Arguments:**
 
@@ -386,6 +416,9 @@ $ python bin/fastqc_tables_and_plots.py --in_dir trimmedReads --out_dir_report R
 1. Number of cores to be used. Normally 2 works fine.
 2. Reference genome folder, which corresponds to the STAR genomeGenerate folder output.
 
+**For small RNA seq projects:**
+- consider changing the parameters in analysis info to --runThreadN 4; --outSAMtype BAM SortedByCoordinate; --readFilesCommand zcat; --outFilterMultimapNmax 20; --outFilterMismatchNoverLmax 0.03; --outFilterScoreMinOverLread 0; --outFilterMatchNminOverLread 0; --outFilterMatchNmin 16; --alignSJDBoverhangMin 1000; --alignIntronMax 1
+
 **Comments:** a temp dir can be a local directory. Transfer of data between servers (i.e fs3 and cluster) is often very slow.
 
 **Arguments main script:**
@@ -475,11 +508,17 @@ python bin/mappingQC.py --run picard_tools --in_dir alignedReads --out_dir align
 
 **main script:** bin/countingQC.py
 
-**software:** samtools and htseq-count
+**software:**
+- samtools <http://www.htslib.org/doc/samtools.html>
+- htseq-count <http://htseq.readthedocs.io/en/release_0.9.0/count.html>
 
 **gtfFile:** gtf file specified in the analysis info file
 
 **Other options:** *htseq\_params*, specified in the analysis info file
+
+**For small RNA seq projects:**
+- consider using the gtf file from mirBase. Make sure the chromosome names are in the same format. [Mice](ftp://mirbase.org/pub/mirbase/CURRENT/genomes/mmu.gff3). [Human](ftp://mirbase.org/pub/mirbase/CURRENT/genomes/hsa.gff3)
+- **If the library is single end and maps to the forward strand, and you are using the gtf file from mirbase,** change the counting parameters to -a 0; -m union; -s yes; -t miRNA; -i Name.
 
 **Command example:**
 
@@ -487,7 +526,7 @@ python bin/mappingQC.py --run picard_tools --in_dir alignedReads --out_dir align
 python bin/countingReads.py --in_dir alignedReads --out_dir countedReads 
 ```
 
-**Output:** \*\_count.txt\* files for each samples with counts for each gene.
+**Output:** \*\_count.txt\* files for each sample in the outdir with counts for each gene.
 
 ### Step 12: Counting QC
 
