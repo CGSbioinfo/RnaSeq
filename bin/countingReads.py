@@ -38,7 +38,7 @@ if __name__ == '__main__':
     ai=functions.read_analysis_info_file(args.analysis_info_file)
     path=ai['project_location']
     refGenome=ai['reference_genome']
-    gtfFile=ai['GTF File']
+    gtfFile=ai['gtf_file']
     os.chdir(path)
     
     #Ncores
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     functions.make_sure_path_exists(out_dir_report)
 
     # Count command
-  #  Parallel(n_jobs=ncores)(delayed(counting)(i) for i in sampleNames)
+    Parallel(n_jobs=ncores)(delayed(counting)(i) for i in sampleNames)
     
     # QC
     os.system("/usr/bin/Rscript " + path + "/bin/countsLog_rnaseq.R " + out_dir + ' ' +  out_dir_report + ' ' + mapping_summary_file)

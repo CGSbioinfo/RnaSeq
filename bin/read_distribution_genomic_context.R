@@ -12,6 +12,7 @@ suppressMessages(require(grid))
 
 in_dir=commandArgs(TRUE)[1]
 out_dir= commandArgs(TRUE)[2]
+plot_device = commandArgs(TRUE)[3]
 patt='pct_dist_'
 
 files=list.files(in_dir, pattern=patt)
@@ -39,9 +40,9 @@ strand=m[grep('STRAND',m[,1]),]
 m=m[-grep('STRAND',m[,1]),]
 m=m[-grep('USABLE',m[,1]),]
 m=m[-grep('MRNA',m[,1]),]
-png(paste0(out_dir,"/read_distribution_genomic_context.png"), height=700, width=900, res=150)
-ggplot(m, aes(x=factor(variable),y=value, fill=cat)) + geom_bar(width=0.5, stat="identity") + coord_flip() + theme(axis.text.y = element_text(color='black'), axis.text.x = element_text(color='black'), axis.title.y=element_blank(), axis.title.x=element_blank(), legend.title=element_blank())  
-dev.off()
+#png(paste0(out_dir,"/read_distribution_genomic_context.png"), height=700, width=900, res=150)
+p<-ggplot(m, aes(x=factor(variable),y=value, fill=cat)) + geom_bar(width=0.5, stat="identity") + coord_flip() + theme(axis.text.y = element_text(color='black'), axis.text.x = element_text(color='black'), axis.title.y=element_blank(), axis.title.x=element_blank(), legend.title=element_blank())  
+ggsave(filename=paste0(out_dir,'/read_distribution_genomic_content.', plot_device), width=15, height=10,unit="cm", plot=p)
 
 # Table of strand accuracy
 x=cbind(strand[,3])

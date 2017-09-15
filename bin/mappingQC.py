@@ -52,7 +52,9 @@ if __name__ == '__main__':
     parser.add_argument('--out_dir', help='Path to out put folder. Default=alignedReads/QC/', default='alignedReads/QC/')
     parser.add_argument('--out_dir_report', help='Path to out put folder. Default=Report/figure/mappingQC/', default='Report/figure/mappingQC/')
     parser.add_argument('--sample_names_file', help='Text file with sample names. Default=sample_names_info.txt', default='sample_names.txt')
+    #parser.add_argument('--suffix_name', help='Suffix to optionally put to the output name. Default=', default='_plot')
     parser.add_argument('--run', help='Choose a section of the pipeline to run. Possible options: mapping_summary; gene_body_coverage; junctions; picard_tools; all. Default = all')
+    parser.add_argument('--plot_device', action='store', help='Specify the format of the plot output. Default=png', default='png')
     #parser.add_argument('--ncores', help='Number of cores to use. Default=8', default='8')
     args=parser.parse_args()
 
@@ -66,6 +68,8 @@ if __name__ == '__main__':
     rRNA_interval_list=ai['rRNA_interval_list']
     strand=ai['strand']
     strand_piccard, strand_htseq = functions.get_strand(strand)
+    plot_device = args.plot_device
+   # suffix_name = args.suffix_name
     
     #Ncores
     ncores=int(ai['ncores'])
@@ -105,6 +109,6 @@ if __name__ == '__main__':
 
     # Picard tools
     if args.run == 'all' or args.run == 'picard_tools':
-        Parallel(n_jobs=ncores)(delayed(picard_collect_metrics)(i) for i in sampleNames)
-        Parallel(n_jobs=ncores)(delayed(pct)(i) for i in sampleNames)
-        os.system('/usr/bin/Rscript bin/read_distribution_genomic_context.R ' + out_dir + ' ' + out_dir_report )
+       # Parallel(n_jobs=ncores)(delayed(picard_collect_metrics)(i) for i in sampleNames)
+       # Parallel(n_jobs=ncores)(delayed(pct)(i) for i in sampleNames)
+        os.system('/usr/bin/Rscript bin/read_distribution_genomic_context.R ' + out_dir + ' ' + out_dir_report+' '+plot_device )

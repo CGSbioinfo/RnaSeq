@@ -1,7 +1,6 @@
 #!/usr/local/bin/Rscript
 
 suppressWarnings(suppressMessages(library(ggplot2)))
-suppressWarnings(suppressMessages(library(scales)))
 suppressWarnings(suppressMessages(library(reshape)))
 suppressWarnings(suppressMessages(require(grid)))
 suppressWarnings(suppressMessages(library(xtable)))
@@ -18,9 +17,11 @@ if (is.na(suffix)){
 }
 
 files=list.files(path = in_dir, full.names = TRUE, recursive = TRUE)
-print(sample_names)
 sample_names=read.table(sample_names)[,1]
-print(sample_names)
+
+shape_values=0:64
+shape_values=shape_values[-c(27:33,35,40,43,45,46,47)]
+print(shape_values)
 
 # Per base quality
 #-----------------
@@ -119,16 +120,16 @@ if (readType=='pairedEnd') {
   d=rbind(mr1,mr2)
   p=ggplot(d, aes(x = x, y = y, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=0.3) + geom_point(size=1) + facet_wrap(~Read) +
     theme(axis.text.x=element_text(size=8), axis.text.y=element_text(size=7), legend.text=element_text(size=8),  
-           legend.key.height=unit(.8,"line"), axis.title.y=element_blank()) + ylab("") + xlab('Mean Quality score') + scale_shape_manual(values=1:length(unique(d$Sample)))+scale_y_continuous(labels=comma)
+           legend.key.height=unit(.8,"line"), axis.title.y=element_blank()) + ylab("") + xlab('Mean Quality score') + scale_shape_manual(values=shape_values[1:length(unique(d$Sample))]) 
 } else {
   d=mr1
   p=ggplot(d, aes(x = x, y = y, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=0.3) + geom_point(size=1) + facet_wrap(~Read) +
     theme( axis.text.x=element_text(size=12), axis.text.y=element_text(size=12), legend.text=element_text(size=7),  
            legend.key.height=unit(.8,"line"), axis.title.y=element_blank()) + 
-           ylab("") + xlab('Mean Quality score single end') + scale_shape_manual(values=1:length(unique(d$Sample)))
+           ylab("") + xlab('Mean Quality score') + scale_shape_manual(values=shape_values[1:length(unique(d$Sample))])
 }
 
-ggsave(filename=paste0(outdir,'/per_sequence_quality_scores', suffix, '.', plot_device), width=20, height=10, units='cm', plot=p, dpi=100)
+ggsave(filename=paste0(outdir,'/per_sequence_quality_scores', suffix, '.', plot_device), width=10, height=3.5, units='in', plot=p)
 print('Quality scores done... ')
 
 # Per sequence gc content
@@ -163,12 +164,12 @@ if (readType=='pairedEnd') {
   mr2=mr2[-1,]
   
   d=rbind(mr1,mr2)
-  p=ggplot(d, aes(x = x, y = y, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) +  xlab('%GC') + ylab('') + theme(legend.key.height=unit(.8,"line")) + scale_shape_manual(values=1:length(unique(d$Sample)))
+  p=ggplot(d, aes(x = x, y = y, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) +  xlab('%GC') + ylab('') + theme(legend.key.height=unit(.8,"line")) + scale_shape_manual(values=shape_values[1:length(unique(d$Sample))])
 
 } else {
   d=mr1
   p=ggplot(d, aes(x = x, y = y, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) + 
-    xlab('%GC') + ylab('') + theme(legend.key.height=unit(.8,"line")) +  scale_shape_manual(values=1:length(unique(d$Sample)))
+    xlab('%GC') + ylab('') + theme(legend.key.height=unit(.8,"line")) +  scale_shape_manual(values=shape_values[1:length(unique(d$Sample))])
 
 }
 ggsave(filename=paste0(outdir,'/per_sequence_gc_content', suffix, '.', plot_device), width=10, height=3.5, units='in', plot=p)
@@ -207,11 +208,11 @@ if (readType=='pairedEnd') {
   d=rbind(mr1,mr2)
   p=ggplot(d, aes(x = Position, y = Frequency, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) +
     theme( axis.title.x =element_text(size=12), axis.title.y =element_text(size=6), 
-           axis.text.x=element_text(size=7,angle=90), axis.text.y=element_text(size=7))  + ylab("") + xlab('Length') + scale_shape_manual(values=1:length(unique(d$Sample)))
+           axis.text.x=element_text(size=7,angle=90), axis.text.y=element_text(size=7))  + ylab("") + xlab('Length') + scale_shape_manual(values=scale_vaues[1:length(unique(d$Sample))])
 } else {
   d=mr1
   p=ggplot(d, aes(x = Position, y = Frequency, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) +
-    scale_shape_manual(values=1:length(unique(d$Sample))) + 
+    scale_shape_manual(values=shape_values[1:length(unique(d$Sample))]) + 
     theme( axis.title.x =element_text(size=12), axis.title.y =element_text(size=12), legend.key.height=unit(.8,"line"), 
            axis.text.x=element_text(size=7,angle=90), axis.text.y=element_text(size=12))  + ylab("") + xlab('length')
 }
@@ -252,7 +253,7 @@ if (readType=='pairedEnd') {
   mr2=mr2[-1,]
   d=rbind(mr1,mr2)
   d$Duplication_Level=factor(d$Duplication_Level,levels=unique(d$Duplication_Level))
-  p=ggplot(d, aes(x=Duplication_Level, y=Percentage, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) + scale_shape_manual(values=1:length(unique(d$Sample))) +
+  p=ggplot(d, aes(x=Duplication_Level, y=Percentage, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) + scale_shape_manual(values=shape_values[1:length(unique(d$Sample))]) +
     theme(axis.text.x = element_text(size = 9, angle=90), legend.key.height=unit(.8,"line"),
                         axis.title.y=element_blank())  + xlab("Number of copies per read")
 } else {
@@ -260,7 +261,7 @@ if (readType=='pairedEnd') {
   d$Duplication_Level=factor(d$Duplication_Level,levels=unique(d$Duplication_Level))
   p=ggplot(d, aes(x=Duplication_Level, y=Percentage, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.3) + geom_point(size=1) + facet_wrap(~Read) + 
     theme(axis.text.x = element_text(size = 9, angle=90), legend.key.height=unit(.8,"line"),
-          axis.title.y=element_blank())  + xlab("Number of copies per read") + scale_shape_manual(values=1:length(unique(d$Sample)))
+          axis.title.y=element_blank())  + xlab("Number of copies per read") + scale_shape_manual(values=shape_values[1:length(unique(d$Sample))])
 }
 ggsave(filename=paste0(outdir,'/sequence_dup_levels', suffix, '.', plot_device), width=10, height=3.5, units='in', plot=p)
 print('Duplication level done..')
@@ -293,7 +294,7 @@ mr1$Base=factor(mr1$Base, levels=unique(mr1$Base))
 p=ggplot(mr1, aes(x=Base, y=Percentage, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.2) + geom_point(size=0.8) + facet_wrap(~Nucleotide) + 
     theme(axis.text.x = element_text(size = 7, angle=90, v=0.5), axis.text.y = element_text(size = 7), legend.text=element_text(size=6), legend.title=element_text(size=7),
           axis.title=element_text(size=8), legend.key.height=unit(.8,"line"), strip.text=element_text(size=7, face='bold'), panel.background=element_rect(fill='white'), panel.grid.major=element_line(colour='grey',size=.2, linetype=2), panel.grid.minor=element_line(colour='grey',size=.2,linetype=2)) + 
-    xlab("Position") + scale_shape_manual(values=1:length(unique(mr1$Sample))) + scale_x_discrete(breaks = c('1','25','50','75','100'))
+    xlab("Position") + scale_shape_manual(values=shape_values[1:length(unique(mr1$Sample))]) + scale_x_discrete(breaks = c('1','25','50','75','100'))
 ggsave(filename=paste0(outdir,'/per_base_sequence_content_r1', suffix, '.', plot_device), width=8, height=3.5, units='in', plot=p)
 
 if (readType=='pairedEnd') {
@@ -321,7 +322,7 @@ mr2$Base=factor(mr2$Base, levels=unique(mr2$Base))
 p=ggplot(mr2, aes(x=Base, y=Percentage, group=Sample, colour=Sample, shape=Sample)) + geom_line(size=.2) + geom_point(size=0.8) + facet_wrap(~Nucleotide) + 
     theme(axis.text.x = element_text(size = 7, angle=90, v=0.5), axis.text.y = element_text(size = 7), legend.text=element_text(size=6), legend.title=element_text(size=7),
           axis.title=element_text(size=8), legend.key.height=unit(.8,"line"), strip.text=element_text(size=7, face='bold'), panel.background=element_rect(fill='white'), panel.grid.major=element_line(colour='grey',size=.2, linetype=2), panel.grid.minor=element_line(colour='grey',size=.2,linetype=2)) + 
-    xlab("Position") + scale_shape_manual(values=1:length(unique(mr2$Sample))) + scale_x_discrete(breaks = c('1','25','50','75','100'))
+    xlab("Position") + scale_shape_manual(values=shape_values[1:length(unique(mr2$Sample))]) + scale_x_discrete(breaks = c('1','25','50','75','100'))
 
 }
 ggsave(filename=paste0(outdir,'/per_base_sequence_content_r2', suffix, '.', plot_device), width=8, height=3.5, units='in', plot=p)

@@ -176,11 +176,12 @@ else #smooth is not true
 } #end of function
 
 ############## PCA modified
-plotPCA_3pcs=function (object, ...) 
+plotPCA_4pcs=function (object, ...) 
 {
     .local <- function (object, intgroup = "condition", ntop = 500, 
         returnData = TRUE) 
     {
+        group=colData(object)$Group
         if (class(object)=="DESeqTransform"){
 	object<-assay(object)	
 	}
@@ -189,13 +190,87 @@ plotPCA_3pcs=function (object, ...)
             length(rv)))]
         pca <- prcomp(t(object[select, ]))
         percentVar <- pca$sdev^2/sum(pca$sdev^2)
-        d <- data.frame(PC1 = pca$x[, 1], PC2 = pca$x[, 2], PC3 = pca$x[, 3], name = colnames(object))
+        d <- data.frame(PC1 = pca$x[, 1], PC2 = pca$x[, 2], PC3 = pca$x[, 3], PC4 = pca$x[, 4], Group=group, name = colnames(object))
         if (returnData) {
-            attr(d, "percentVar") <- percentVar[1:3]
+            attr(d, "percentVar") <- percentVar[1:4]
             return(d)
         }
     }
     .local(object, ...)
+}
+
+pca_plot_single_label=function(x, pcs, col, shape, percentVar){
+  plus_margin=diff(range(x[,pcs[1]]))/2
+  plus_marginy=diff(range(x[,pcs[2]]))/10
+  plot=ggplot(as.data.frame(x), aes_string(x=pcs[1], y=pcs[2], col=col, shape=shape)) +
+    geom_point(size=.8) + geom_text(label=as.character(rownames(x)),show.legend = FALSE, vjust=1.3, size=4) + 
+    xlab(paste0(pcs[1],' ', percentVar[pcs[1]], "%")) + ylab(paste0(pcs[2], ' ', percentVar[pcs[2]], "%")) +
+    ggtitle(paste0(pcs[1],' vs ',pcs[2])) +
+    theme(plot.margin= unit(c(1, 1, 1, 1), "cm"),
+          panel.border = element_rect(fill=NA),
+          panel.grid.major =element_line(colour = 'grey', linetype='dashed'),
+          legend.text = element_text(size=15),
+          legend.title= element_text(size=15),
+          plot.title = element_text(size=15, face='bold'),
+          axis.text = element_text(size=15),
+          axis.title = element_text(size=15))  +
+    guides(colour = guide_legend(override.aes = list(size=2.2)))  +
+    xlim(min(x[,pcs[1]])-plus_margin,max(x[,pcs[1]])+plus_margin) +
+    ylim(min(x[,pcs[2]])-plus_marginy, max(x[,pcs[2]])+plus_marginy) +
+    scale_shape_manual(values=1:nrow(x))
+  return(plot)
+}
+
+pca_plot_single=function(x, pcs, col, percentVar){
+  plus_margin=diff(range(x[,pcs[1]]))/10
+  plus_marginy=diff(range(x[,pcs[2]]))/15
+  plot=ggplot(as.data.frame(x), aes_string(x=pcs[1], y=pcs[2], col=col)) +
+    geom_point(size=2) +
+    xlab(paste0(pcs[1],' ', percentVar[pcs[1]], "%")) + ylab(paste0(pcs[2], ' ', percentVar[pcs[2]], "%")) +
+    ggtitle(paste0(pcs[1],' vs ',pcs[2])) +
+    theme(plot.margin= unit(c(1, 1, 1, 1), "cm"),
+          panel.border = element_rect(fill=NA),
+          panel.grid.major =element_line(colour = 'grey', linetype='dashed'),
+          legend.text = element_text(size=15),
+          legend.title= element_text(size=15),
+          plot.title = element_text(size=15, face='bold'),
+          axis.text = element_text(size=15),
+          axis.title = element_text(size=15))  +
+    guides(colour = guide_legend(override.aes = list(size=2.2)))  +
+    xlim(min(x[,pcs[1]])-plus_margin,max(x[,pcs[1]])+plus_margin) +
+    ylim(min(x[,pcs[2]])-plus_marginy, max(x[,pcs[2]])+plus_marginy)
+  return(plot)
+}
+
+pca_plot_pairs=function(x, plot_name, column_col){
+  pca=prcomp(t(exprs(x)))
+  percentVar<-pca$sdev^2/sum(pca$sdev^2)
+  percentVar=round(percentVar*100)
+  names(percentVar)=paste0('PC',1:length(percentVar))
+  pca_points<-pca$x
+  pca_points<-data.frame(SampleName=row.names(pca_points),pData(x),pca_points)
+  
+  pcs=c('PC1','PC2')
+  plot1=pca_plot_single(pca_points,pcs,column_col, percentVar=percentVar)
+  
+  pcs=c('PC1','PC3')
+  plot2=pca_plot_single(pca_points,pcs,column_col, percentVar=percentVar)
+  
+  pcs=c('PC1','PC4')
+  plot3=pca_plot_single(pca_points,pcs,column_col, percentVar=percentVar)
+  
+  pcs=c('PC2','PC3')
+  plot4=pca_plot_single(pca_points,pcs,column_col, percentVar=percentVar)
+  
+  pcs=c('PC2','PC4')
+  plot5=pca_plot_single(pca_points,pcs,column_col, percentVar=percentVar)
+  
+  pcs=c('PC3','PC4')
+  plot6=pca_plot_single(pca_points,pcs,column_col, percentVar=percentVar)
+  
+  png(plot_name, height=880, width=1680)
+  grid.arrange(plot1,plot2,plot3,plot4,plot5,plot6,ncol=3)
+  dev.off()
 }
 
 ################# clean y
@@ -209,5 +284,4 @@ cleanY = function(y, mod1, svs) {
   #dat_transformed=dat0 - t(as.matrix(X[,-c(1:P)]) %*% beta[-c(1:P),])
   return(y - t(as.matrix(X[,-c(1:P)]) %*% beta[-c(1:P),]))
 }
-
 
