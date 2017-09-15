@@ -1,6 +1,11 @@
 RnaSeq pipeline
 ================
 
+__Update September 2017__ : Added GC content and length bias correction to the edgeR function.  Introduce two new arguments to the argument file, gc.length.table and gc.length.correction:
+  -  gc.length.table is the path to the gc and length table
+  -  gc.length.correction is TRUE or FALSE to choose to perform the correction or not.
+  
+******
 -   [Getting Started](#getting-started)
 -   [Running the pipeline](#running-the-pipeline)
     -   [Step 1: Analysis info file](#step-1-analysis-info-file)
@@ -71,6 +76,9 @@ The following is an example of the analysis info file:
 | **ncores =** 8                                                                                          |
 | **htseq\_params =** -a 10; -m union; -s reverse; -t exon                                                |
 | **strand =** reverse                                                                                    |
+| **gc.length.table =** /mnt/cgs-fs3/Sequencing/Genome/Human/ensembl/Human_length_GC_content_sep2017.txt  |
+| **gc.length.correction=** TRUE                                                                          |
+
 
 The following is the explanation of the analysis info file:
 
@@ -87,6 +95,8 @@ The following is the explanation of the analysis info file:
 | **ncores =** *&lt;Number of cores to use to pararellize analysis&gt;*                                                               |
 | **htseq\_params =** *&lt;parameters to be passed to htseq-count&gt;*                                                                |
 | **strand =** *&lt; expected mapping strand. &gt;*                                                                                   |
+| **gc.length.table =** *&lt; path to the GC and length gene table. &gt;*                                                             |
+| **gc.length.correction =** *&lt; TRUE/FALSE perform GC content and length correction &gt;*                                          |
 
 <br>
 
