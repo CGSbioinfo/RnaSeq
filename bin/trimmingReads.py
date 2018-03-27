@@ -15,6 +15,11 @@ import subprocess
 import functions
 import argparse
 
+#################################################################################
+### Removed the i for the folder of the sample in the trimming function. 
+## (It was looking for folder named after the samples. Changed on the 27/03/2018)
+#################################################################################
+
 def trimming(i):
     params=ai['trimgalore_params'].replace(';','')
     allFiles = os.listdir(in_dir + "/" + i )
