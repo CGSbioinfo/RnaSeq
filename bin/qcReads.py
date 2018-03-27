@@ -14,13 +14,19 @@ import subprocess
 import functions
 import argparse
 
+########################################################################
+### removed the i for the folder of the sample in the qc_check function 
+## (it was looking for folder named after the samples on the 27/03/2018)
+########################################################################
+
+
 def qc_check(i):
-    allFiles = os.listdir(in_dir + "/" + i )
+    allFiles = os.listdir(in_dir + "/" )
     pairedReads_temp = [allFiles[y] for y, x in enumerate(allFiles) if re.findall("_R2", x)]
     functions.make_sure_path_exists(out_dir+'/'+i)
-    os.system("fastqc "  + in_dir + "/" + i + "/" + i + "*_R1*.fastq" + gz + " --outdir=" + out_dir + "/" + i + " --nogroup --extract ")
+    os.system("fastqc "  + in_dir + "/" + i + "*_R1*.fastq" + gz + " --outdir=" + out_dir + "/" + i + " --nogroup --extract ")
     if pairedReads_temp:
-        os.system("fastqc " + in_dir + "/" + i + "/" + i + "*_R2*.fastq" + gz + " --outdir=" + out_dir + "/" + i + " --nogroup --extract")
+        os.system("fastqc " + in_dir + "/"  + i + "*_R2*.fastq" + gz + " --outdir=" + out_dir + "/" + i + " --nogroup --extract")
 
 ####################
 __version__ = 'v01'
@@ -68,7 +74,7 @@ if __name__ == '__main__':
     gz = functions.check_gz(in_dir)
     
     # Run fastqc
-    #Parallel(n_jobs=ncores)(delayed(qc_check)(i) for i in sampleNames)
+    Parallel(n_jobs=ncores)(delayed(qc_check)(i) for i in sampleNames)
 
     # Number of reads per sample
     os.system("/usr/bin/Rscript " + path + "/bin/indexQC.R " + in_dir + " " + out_dir_report) 
