@@ -7,7 +7,11 @@ suppressMessages(library(reshape2))
 suppressMessages(library(ggplot2))
 suppressMessages(library(dplyr))
 
-multipleComparison=function(data,comparisons,pairedDesign, min.count, min.nsamples, gtf.file, gc.length.correction=FALSE, gc.length.table=NULL){
+##########################################################################
+# Changed argument from min.count to min.cpm, to match the arguments file
+##########################################################################
+
+multipleComparison=function(data,comparisons,pairedDesign, min.cpm, min.nsamples, gtf.file, gc.length.correction=FALSE, gc.length.table=NULL){
   # Initialize vector to record number of DE genes
   significant01=c()
   significant05=c()
