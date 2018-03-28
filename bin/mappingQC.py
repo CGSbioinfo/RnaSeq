@@ -17,6 +17,11 @@ import argparse
 
 __version__ = 'v02'
 
+#############################################################################
+# Uncommented the 'picard_tools' if statement so that Parallel
+# lines are now run when 'all'  or 'picard_tools' is typed into command line. 
+#############################################################################
+
 def junctions(i):
     os.system("junction_annotation.py -i " + 
         in_dir + "/" + i +"Aligned.sortedByCoord.out.bam -o " + 
@@ -109,6 +114,6 @@ if __name__ == '__main__':
 
     # Picard tools
     if args.run == 'all' or args.run == 'picard_tools':
-       # Parallel(n_jobs=ncores)(delayed(picard_collect_metrics)(i) for i in sampleNames)
-       # Parallel(n_jobs=ncores)(delayed(pct)(i) for i in sampleNames)
+        Parallel(n_jobs=ncores)(delayed(picard_collect_metrics)(i) for i in sampleNames)
+        Parallel(n_jobs=ncores)(delayed(pct)(i) for i in sampleNames)
         os.system('/usr/bin/Rscript bin/read_distribution_genomic_context.R ' + out_dir + ' ' + out_dir_report+' '+plot_device )
