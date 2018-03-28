@@ -5,6 +5,11 @@ suppressMessages(library(gplots))
 suppressMessages(library(rtracklayer))
 source('bin/edger_functions.R')
 
+####################################################
+# In the multipleComparisons function call, changed
+# min.counts to min.cpm to match argument file
+####################################################
+
 # Read arguments from standard file
 arguments_file = commandArgs(TRUE)[1]
 arguments_file=read.csv(arguments_file, header=FALSE)
@@ -118,7 +123,7 @@ if (design=='pairedSamples'){
 
 if (length(sample_info$Group)==length(unique(sample_info$Group))){
   print('No replicate analysis')
-  multipleComparison_no_replicates(data,comparisons,pairedDesign, min.count, min.nsamples, gtf.file)
+  multipleComparison_no_replicates(data,comparisons,pairedDesign, min.cpm, min.nsamples, gtf.file)
 } else {
-  multipleComparison(data,comparisons,pairedDesign, min.count, min.nsamples, gtf.file, gc.length.correction, gc.length.table)
+  multipleComparison(data,comparisons,pairedDesign, min.cpm, min.nsamples, gtf.file, gc.length.correction, gc.length.table)
 }
