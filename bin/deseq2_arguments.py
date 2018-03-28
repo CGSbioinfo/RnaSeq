@@ -13,13 +13,16 @@ import multiprocessing
 import subprocess
 import functions
 
+##################################################################
+# Added in 'plot_device =' as an extra line in the txt file output
+##################################################################
 
 if __name__ == '__main__':
     try: 
         outfile_name=sys.argv[1]
     except:
         outfile_name='deseq2_arguments.txt'
-    lines=['indir = ', 'outdir = ', 'sample_info = ', 'comparisons = ', 'design = ', 'gtfFile = ']
+    lines=['indir = ', 'outdir = ', 'sample_info = ', 'comparisons = ', 'design = ', 'gtfFile = ', 'plot_device =']
     outfile=open(outfile_name,'w')
     for l in lines:
         outfile.write(l + '\n')
@@ -29,7 +32,7 @@ if __name__ == '__main__':
         outfile_name=sys.argv[2]
     except:
         outfile_name='deseq2_arguments.txt'
-    lines=['indir = ', 'outdir = ', 'sample_info = ', 'comparisons = ', 'design = ', 'gtfFile = ']
+    lines=['indir = ', 'outdir = ', 'sample_info = ', 'comparisons = ', 'design = ', 'gtfFile = ', 'plot_device =']
     outfile=open(outfile_name,'w')
     for l in lines:
         outfile.write(l + '\n')
