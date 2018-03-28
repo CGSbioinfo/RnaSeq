@@ -12,6 +12,11 @@ suppressMessages(library(ggplot2))
 suppressMessages(library(dplyr))
 source("bin/deseq2_functions.R")
 
+
+#############################################################################################
+#Commented out the section about 'clones' and added a space between the 'plot_device' and '='
+#############################################################################################
+
 print('Reading arguments')
 # Read arguments from standard file
 arguments_file = commandArgs(TRUE)[1]
@@ -29,7 +34,7 @@ sample_info=read_args_line(grep('^sample_info =', arguments_file$V1, value=TRUE)
 comparisons=read_args_line(grep('^comparisons =', arguments_file$V1, value=TRUE))
 design=read_args_line(grep('^design =', arguments_file$V1, value=TRUE))
 gtf.file=read_args_line(grep('^gtfFile =', arguments_file$V1, value=TRUE))
-plot_device = read_args_line(grep('^plot_device=', arguments_file$V1, value=TRUE))
+plot_device = read_args_line(grep('^plot_device =', arguments_file$V1, value=TRUE))
 print(plot_device)
 
 print('Creating output directory')
@@ -152,13 +157,13 @@ ggsave(filename=paste0(outdir,'/PCA_allSamples_time.', plot_device), width=40, h
 
 
 # Clone identity
-pca_data=left_join(pca_data, data.frame(name=sample_info$SampleID, clone=sample_info$Clone), by='name')
-p1=pca_plot_single(pca_data, pcs=c('PC1','PC2'), col='clone', percentVar)
-p2=pca_plot_single(pca_data, pcs=c('PC1','PC3'), col='clone', percentVar)
-p3=pca_plot_single(pca_data, pcs=c('PC1','PC4'), col='clone', percentVar)
-p4=pca_plot_single(pca_data, pcs=c('PC2','PC3'), col='clone', percentVar)
-p5=pca_plot_single(pca_data, pcs=c('PC2','PC4'), col='clone', percentVar)
-p6=pca_plot_single(pca_data, pcs=c('PC3','PC4'), col='clone', percentVar)
+#pca_data=left_join(pca_data, data.frame(name=sample_info$SampleID, clone=sample_info$Clone), by='name')
+#p1=pca_plot_single(pca_data, pcs=c('PC1','PC2'), col='clone', percentVar)
+#p2=pca_plot_single(pca_data, pcs=c('PC1','PC3'), col='clone', percentVar)
+#p3=pca_plot_single(pca_data, pcs=c('PC1','PC4'), col='clone', percentVar)
+#p4=pca_plot_single(pca_data, pcs=c('PC2','PC3'), col='clone', percentVar)
+#p5=pca_plot_single(pca_data, pcs=c('PC2','PC4'), col='clone', percentVar)
+#p6=pca_plot_single(pca_data, pcs=c('PC3','PC4'), col='clone', percentVar)
 
 #png(paste0(outdir,"/PCA_allSamples_clone.png"), height=880, width=1680, res=80 )
 grid<-grid.arrange(p1,p2,p3,p4,p5,p6,ncol=3)
@@ -213,12 +218,12 @@ for (i in 1:nrow(comparisons)){
   rownames(pca_data)=pca_data$SampleID
   colnames(pca_data)[5]='Group'
   
-  p1=pca_plot_single_label(pca_data, pcs=c('PC1','PC2'), col='Group', shape='Clone', percentVar)
-  p2=pca_plot_single_label(pca_data, pcs=c('PC1','PC3'), col='Group', shape='Clone', percentVar)  
-  p3=pca_plot_single_label(pca_data, pcs=c('PC1','PC4'), col='Group', shape='Clone', percentVar)
-  p4=pca_plot_single_label(pca_data, pcs=c('PC2','PC3'), col='Group', shape='Clone', percentVar)
-  p5=pca_plot_single_label(pca_data, pcs=c('PC2','PC4'), col='Group', shape='Clone', percentVar)
-  p6=pca_plot_single_label(pca_data, pcs=c('PC3','PC4'), col='Group', shape='Clone', percentVar)
+  p1=pca_plot_single_label(pca_data, pcs=c('PC1','PC2'), col='Group', shape='Group', percentVar)
+  p2=pca_plot_single_label(pca_data, pcs=c('PC1','PC3'), col='Group', shape='Group', percentVar)  
+  p3=pca_plot_single_label(pca_data, pcs=c('PC1','PC4'), col='Group', shape='Group', percentVar)
+  p4=pca_plot_single_label(pca_data, pcs=c('PC2','PC3'), col='Group', shape='Group', percentVar)
+  p5=pca_plot_single_label(pca_data, pcs=c('PC2','PC4'), col='Group', shape='Group', percentVar)
+  p6=pca_plot_single_label(pca_data, pcs=c('PC3','PC4'), col='Group', shape='Group', percentVar)
   
   #png(paste0(outdir,'/PCA_',paste(groups, collapse='_vs_'),".png"), height=880, width=1680, res=80 )
   grid<-grid.arrange(p1,p2,p3,p4,p5,p6,ncol=3)
