@@ -17,10 +17,12 @@ import argparse
 
 __version__ = 'v02'
 
-#############################################################################
+###############################################################################
 # Uncommented the 'picard_tools' if statement so that Parallel
 # lines are now run when 'all'  or 'picard_tools' is typed into command line. 
-#############################################################################
+# Uncommented the ncores parser argument so it uses the correct number of cores
+# specified in the analysis info file. 
+###############################################################################
 
 def junctions(i):
     os.system("junction_annotation.py -i " + 
@@ -60,7 +62,7 @@ if __name__ == '__main__':
     #parser.add_argument('--suffix_name', help='Suffix to optionally put to the output name. Default=', default='_plot')
     parser.add_argument('--run', help='Choose a section of the pipeline to run. Possible options: mapping_summary; gene_body_coverage; junctions; picard_tools; all. Default = all')
     parser.add_argument('--plot_device', action='store', help='Specify the format of the plot output. Default=png', default='png')
-    #parser.add_argument('--ncores', help='Number of cores to use. Default=8', default='8')
+    parser.add_argument('--ncores', help='Number of cores to use. Default=8', default='8')
     args=parser.parse_args()
 
     ai=functions.read_analysis_info_file(args.analysis_info_file)
