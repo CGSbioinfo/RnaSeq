@@ -7,9 +7,11 @@ suppressMessages(library(reshape2))
 suppressMessages(library(ggplot2))
 suppressMessages(library(dplyr))
 
-##########################################################################
-# Changed argument from min.count to min.cpm, to match the arguments file
-##########################################################################
+################################################################################
+# Changed argument from min.count to min.cpm, to match the arguments file.
+# Changed the non-paired design to log the results (read counts for each sample).
+# Added in the trended dispersion line to the non-paired design BCV plots.
+#################################################################################
 
 multipleComparison=function(data,comparisons,pairedDesign, min.cpm, min.nsamples, gtf.file, gc.length.correction=FALSE, gc.length.table=NULL){
   # Initialize vector to record number of DE genes
@@ -128,7 +130,8 @@ multipleComparison=function(data,comparisons,pairedDesign, min.cpm, min.nsamples
       dge_norm<-estimateGLMTagwiseDisp(dge_norm, design)
     } else {
       dge_norm <- estimateCommonDisp(dge_norm) # Common dispersio estimates the overall BCV of the dataset, averaged over all genes # BCV is the sqroot of the common dispersion
-      dge_norm <- estimateTagwiseDisp(dge_norm) # Estimaes gene specific dispersions
+      dge_norm <- estimateTagwiseDisp(dge_norm) # Estimates gene specific dispersions
+      dge_norm<-estimateGLMTrendedDisp(dge_norm)
     }
     
     ## Plot BCV for non corrected data
@@ -232,7 +235,10 @@ multipleComparison=function(data,comparisons,pairedDesign, min.cpm, min.nsamples
         gc.length.data[is.na(gc.length.data$gccontent),]$gccontent<-median(gc.length.data$gccontent, na.rm = T)
       }
       cat("Correcting gc and length bias (skipping edgeR norm)\n")
-      cqn.subset<-cqn(dge$counts, lengths=gc.length.data$length, x=gc.length.data$gccontent, sizeFactors = dge$samples$lib.size, verbose=T)
+      #cqn.subset<-cqn(dge$counts, lengths=gc.length.data$length, x=gc.length.data$gccontent, sizeFactors = dge$samples$lib.size, verbose=T)
+      cqn.subset<-cqn(dge$counts, lengths=gc.length.data$length, x=gc.length.data$gccontent, verbose=T) # removing sizeFactors as cqn calculates own sizefactors (same results anyway)
+
+      
       cat("Comparing corrected data\n")
       if(pairedDesign == TRUE){
         dge$offset<-cqn.subset$glm.offset
@@ -266,7 +272,7 @@ multipleComparison=function(data,comparisons,pairedDesign, min.cpm, min.nsamples
         results_gc=topTags(lrt_gc, n=dim(lrt_gc)[1])[[1]]
       }
       detags_gc <- rownames(results_gc) # chech individual cpm values for top genes
-      results_gc = cbind(results_gc,cpm(dge,log=FALSE)[detags_gc,]) # chech individual cpm values for top genes
+      results_gc = cbind(results_gc,cpm(dge,log=TRUE)[detags_gc,]) # chech individual cpm values for top genes
       results_gc=cbind(GeneName=df[rownames(results_gc)], results_gc)
       write.csv(results_gc,paste0(outdir, '/',newd,'/Results_gc_length_corrected_', newd, ".csv"))
     
