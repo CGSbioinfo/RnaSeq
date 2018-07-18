@@ -314,6 +314,7 @@ $ python bin/fastqc_tables_and_plots.py --in_dir rawReads/ --out_dir_report Repo
 ### Step 6: Trim low quality bases and adapters
 
 **Check the trimgalore\_params in the analysis info file. Most are default, but paired end or single end will need to be changed depending on the project.** Manual: <https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md>.
+- add in '--paired' ibto trimgalore params in analysis info file, as well as changing readType to pairedEnd.
 
 **main script:** bin/trimmingReads.py
 
