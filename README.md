@@ -436,7 +436,7 @@ $ python bin/fastqc_tables_and_plots.py --in_dir trimmedReads --out_dir_report R
 **Command example:**
 
 ``` bash
-$ python bin/mappingReads.py --temp_dir ~/temp_mapping
+$ python bin/mappingReads.py --temp_dir /tmp/
 ```
 
 <br>
