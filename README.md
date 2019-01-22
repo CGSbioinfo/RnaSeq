@@ -430,13 +430,13 @@ $ python bin/fastqc_tables_and_plots.py --in_dir trimmedReads --out_dir_report R
 | -v, --version show program's version number and exit                                                           |
 | --in\_dir IN\_DIR Path to folder containing fastq files. Default=trimmedReads/                                 |
 | --out\_dir OUT\_DIR Path to out put folder. Default=alignedReads/                                              |
-| --temp\_dir TEMP\_DIR Path to a temp dir folder. Default=none                                                  |
+| --temp\_dir TEMP\_DIR Path to a temp dir folder. Must be within /home/tmp/. Default=none                                               
 | --sample\_names\_file SAMPLE\_NAMES\_FILE. Text file with sample names to map. Default=sample\_names\_info.txt |
 
 **Command example:**
 
 ``` bash
-$ python bin/mappingReads.py --temp_dir ~/tmp/temp_dir
+$ python bin/mappingReads.py --temp_dir /home/tmp/temp_dir
 ```
 
 <br>
